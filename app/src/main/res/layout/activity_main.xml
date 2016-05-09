@@ -6,16 +6,17 @@
     tools:context=".MainActivity">
 
 
-    <ImageView
-        android:id="@+id/imageViewMenu"
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/usm_campus"/>
+    <!--  Recycler View  -->
+    <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/recycler_view"
+        android:layout_width="fill_parent"
+        android:layout_height="180dp"
+        android:scrollbars="none" />
 
 
     <ListView
-        android:layout_below="@+id/imageViewMenu"
+        android:layout_below="@+id/recycler_view"
         android:id="@+id/listViewOpciones"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
