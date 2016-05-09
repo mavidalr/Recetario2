@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#53b3ef</color>
+    <color name="colorPrimaryDark">#2b78af</color>
+    <color name="colorAccent">#abb6bc</color>
+    <color name="white">#FFF</color>
+    <color name="rojo_fuerte">#88ddff</color>
+    <color name="calipso">#50D2C2</color>
+
+</resources>
