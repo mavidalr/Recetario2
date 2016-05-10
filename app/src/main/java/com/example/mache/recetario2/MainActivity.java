@@ -1,6 +1,13 @@
 package com.example.mache.recetario2;
 
 
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -36,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
             "Menú personal",
             "Crear receta"};
 
-    private static final int OPCION_MIS_RAMOS = 0;
-    private static final int OPCION_INSCRIPCION = 1;
-    private static final int OPCION_CERTIFICADOS = 2;
-    private static final int OPCION_FICHA_PERSONAL = 3;
-    private static final int OPCION_RESUMEN_ACADEMICO = 4;
+    private static final int OPCION_BUSCAR_RECETAS = 0;
+    private static final int OPCION_VER_RECETAS_GUARDADAS = 1;
+    private static final int OPCION_CESTA_DE_COMPRAS = 2;
+    private static final int OPCION_MENU_PERSONAL = 3;
+    private static final int OPCION_CREAR_RECETA = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         listViewOpciones.setAdapter(adapterOpciones);
 
-        /*
+
         listViewOpciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
@@ -84,12 +92,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent;
 
                 switch (position){
-                    case OPCION_MIS_RAMOS:
-                        intent = new Intent(HomeActivity.this,
-                                MisRamosActivity.class);
+                    case OPCION_BUSCAR_RECETAS:
+                        intent = new Intent(MainActivity.this,
+                                BuscarRecetasActivity.class);
                         startActivity(intent);
                         break;
+                    /*
                     case OPCION_INSCRIPCION:
+
                         intent = new Intent(HomeActivity.this,
                                 InscripcionActivity.class);
                         startActivity(intent);
@@ -109,18 +119,18 @@ public class MainActivity extends AppCompatActivity {
                                 ResumenAcademicoActivity.class);
                         startActivity(intent);
                         break;
-
+*/
                 }
             }
         });
-        */
+
     }
 
-//--para el slide
+    //--para el slide
 
     // Initialize the view
     private void initViews() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Set Back Icon on Activity
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Set Back Icon on Activity
 
         //navigateFrom = getIntent().getStringExtra("navigateFrom");//Get Intent Value in String
         navigateFrom = "horizontal";

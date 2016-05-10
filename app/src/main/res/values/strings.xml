@@ -4,4 +4,8 @@
     <string name="font_awesome_area_chart_icon">&#xf1fe;</string>
     <string name="font_awesome_cubes_icon">&#xf1b3;</string>
     <string name="font_awesome_mobile_phone_icon">&#xf10b;</string>
+
+
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
 </resources>
