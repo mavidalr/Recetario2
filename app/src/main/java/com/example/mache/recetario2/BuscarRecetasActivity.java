@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,10 +59,17 @@ public class BuscarRecetasActivity extends Activity {
         adapter = new CustomListAdapter(this, RecetaList);
         listView.setAdapter(adapter);
 
+        /*
         TextView textViewNombreUsuario =
                 (TextView) findViewById(R.id.Ver);
 
         textViewNombreUsuario.setText("Holiwi");
+        */
+
+        //awesome font
+        Typeface fontAwesomeFont = Typeface.createFromAsset(getAssets(), "fontawesome-webfont.ttf");
+        TextView fontAwesomeAndroidIcon = (TextView) findViewById(R.id.Ver);
+        fontAwesomeAndroidIcon.setTypeface(fontAwesomeFont);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

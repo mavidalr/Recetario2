@@ -20,6 +20,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:textColor="@color/year"
-        android:textSize="@dimen/year" />
+        android:text="@string/Ver"
+        android:textSize="50sp" />
 
 </RelativeLayout>
