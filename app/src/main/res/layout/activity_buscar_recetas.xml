@@ -12,4 +12,14 @@
         android:dividerHeight="1dp"
         android:listSelector="@drawable/list_row_selector" />
 
+    //nuevo
+    <TextView
+        android:id="@+id/Ver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/year"
+        android:textSize="@dimen/year" />
+
 </RelativeLayout>

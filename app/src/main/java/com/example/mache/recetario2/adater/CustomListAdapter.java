@@ -15,27 +15,27 @@ import java.util.List;
 
 import com.example.mache.recetario2.R;
 import com.example.mache.recetario2.app.AppController;
-import com.example.mache.recetario2.model.Movie;
+import com.example.mache.recetario2.model.Receta;
 
 public class CustomListAdapter extends BaseAdapter {
 	private Activity activity;
 	private LayoutInflater inflater;
-	private List<Movie> movieItems;
+	private List<Receta> RecetaItems;
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
-	public CustomListAdapter(Activity activity, List<Movie> movieItems) {
+	public CustomListAdapter(Activity activity, List<Receta> RecetaItems) {
 		this.activity = activity;
-		this.movieItems = movieItems;
+		this.RecetaItems = RecetaItems;
 	}
 
 	@Override
 	public int getCount() {
-		return movieItems.size();
+		return RecetaItems.size();
 	}
 
 	@Override
 	public Object getItem(int location) {
-		return movieItems.get(location);
+		return RecetaItems.get(location);
 	}
 
 	@Override
@@ -55,35 +55,37 @@ public class CustomListAdapter extends BaseAdapter {
 		if (imageLoader == null)
 			imageLoader = AppController.getInstance().getImageLoader();
 		NetworkImageView thumbNail = (NetworkImageView) convertView
-				.findViewById(R.id.thumbnail);
-		TextView title = (TextView) convertView.findViewById(R.id.title);
-		TextView rating = (TextView) convertView.findViewById(R.id.rating);
-		TextView genre = (TextView) convertView.findViewById(R.id.genre);
+				.findViewById(R.id.FotoReceta);
+		TextView NombreReceta = (TextView) convertView.findViewById(R.id.NombreReceta);
+		TextView Categoria = (TextView) convertView.findViewById(R.id.Categoria);
+		TextView TiempoPreparacion = (TextView) convertView.findViewById(R.id.TiempoPreparacion);
 		TextView year = (TextView) convertView.findViewById(R.id.releaseYear);
 
-		// getting movie data for the row
-		Movie m = movieItems.get(position);
+		// getting Receta data for the row
+        Receta m = RecetaItems.get(position);
 
 		// thumbnail image
-		thumbNail.setImageUrl(m.getThumbnailUrl(), imageLoader);
+		thumbNail.setImageUrl(m.getFotoReceta(), imageLoader);
 		
-		// title
-		title.setText(m.getTitle());
+		// NombreReceta
+        NombreReceta.setText(m.getNombreReceta());
 		
 		// rating
-		rating.setText("Rating: " + String.valueOf(m.getRating()));
+        Categoria.setText("Categoría: " + String.valueOf(m.getCategoria()));
+        // genre
+        TiempoPreparacion.setText("Praparación: " + String.valueOf(m.getTiempoPraparacion()) + " min.");
 		
 		// genre
-		String genreStr = "";
+		/*String genreStr = "";
 		for (String str : m.getGenre()) {
 			genreStr += str + ", ";
 		}
 		genreStr = genreStr.length() > 0 ? genreStr.substring(0,
 				genreStr.length() - 2) : genreStr;
 		genre.setText(genreStr);
-		
+		*/
 		// release year
-		year.setText(String.valueOf(m.getYear()));
+		//year.setText(String.valueOf(m.getYear()));
 
 		return convertView;
 	}
