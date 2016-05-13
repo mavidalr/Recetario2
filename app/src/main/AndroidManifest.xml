@@ -27,10 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".BuscarRecetasActivity" />
-        <activity
-            android:name=".MostrarRecetaActivity"
-            android:label="@string/title_activity_mostrar_receta"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".MostrarRecetaActivity"></activity>
     </application>
 
 </manifest>
