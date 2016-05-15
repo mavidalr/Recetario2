@@ -131,7 +131,7 @@ public class BuscarRecetasActivity extends Activity {
                                 Receta.setCategoria(obj.getString("Categoria"));
                                 //Receta.setRating(((Number) obj.get("rating"))
                                 //        .doubleValue());
-                                //Receta.setYear(obj.getInt("releaseYear"));
+                                //Receta.setYear(obj.getInt("IdReceta"));
                                 Receta.setTiempoPraparacion(obj.getInt("TiempoPreparacion"));
 
                                 /*

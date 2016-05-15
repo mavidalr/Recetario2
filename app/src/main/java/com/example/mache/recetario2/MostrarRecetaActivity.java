@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -49,6 +50,14 @@ public class MostrarRecetaActivity extends AppCompatActivity {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+
+        collapsingToolbar.setContentScrimColor(getResources().getColor(R.color.colorPrimary));
+        //collapsingToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
+        //collapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.white));
+        collapsingToolbar.setExpandedTitleTextAppearance(R.style.barraExpandida);
+        collapsingToolbar.setCollapsedTitleTextAppearance(R.style.barraColapse);
+
+
 
     }
 

@@ -20,13 +20,37 @@
         android:background="@color/material_deep_teal_500"
         android:fitsSystemWindows="true">
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
         <ImageView
             android:id="@+id/ImagenFondo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:fitsSystemWindows="true"
+            android:src="@drawable/trending_gradient_shape"
+            app:layout_collapseMode="pin"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/trending_gradient_shape"/>
+
+
+    </FrameLayout>
+
+        <!-- <ImageView
+            android:id="@+id/ImagenFondo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:fitsSystemWindows="true"
+            android:src="@drawable/trending_gradient_shape"
             app:layout_collapseMode="pin" />
+-->
+
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/MyToolbar"
@@ -37,6 +61,7 @@
     </android.support.design.widget.CollapsingToolbarLayout>
 
 </android.support.design.widget.AppBarLayout>
+
 
 <android.support.v4.widget.NestedScrollView
 android:layout_width="match_parent"
@@ -63,9 +88,11 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior">
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/cardUno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
+                android:textColor="#000000"
                 android:text="This text is part of first Cardview\n\n"/>
 
         </LinearLayout>
@@ -85,10 +112,11 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior">
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/cardDos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:textColor="@color/abc_search_url_text"
+                android:textColor="#000000"
                 android:text="This text is part of second Cardview\n\n"/>
 
         </LinearLayout>
@@ -98,5 +126,8 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior">
 </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
+
+
+
 
     </android.support.design.widget.CoordinatorLayout>
