@@ -46,7 +46,18 @@
 
     <!-- Release Year -->
     <TextView
-        android:id="@+id/releaseYear"
+        android:id="@+id/IdReceta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/year"
+        android:textSize="@dimen/year"
+        android:visibility = "gone"/>
+
+    <!-- URL -->
+    <TextView
+        android:id="@+id/URL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

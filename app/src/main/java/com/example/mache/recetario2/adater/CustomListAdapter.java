@@ -59,7 +59,10 @@ public class CustomListAdapter extends BaseAdapter {
 		TextView NombreReceta = (TextView) convertView.findViewById(R.id.NombreReceta);
 		TextView Categoria = (TextView) convertView.findViewById(R.id.Categoria);
 		TextView TiempoPreparacion = (TextView) convertView.findViewById(R.id.TiempoPreparacion);
-		TextView year = (TextView) convertView.findViewById(R.id.releaseYear);
+		//TextView year = (TextView) convertView.findViewById(R.id.releaseYear);
+		TextView IdReceta = (TextView) convertView.findViewById(R.id.IdReceta);
+
+        TextView URL = (TextView) convertView.findViewById(R.id.URL);
 
 		// getting Receta data for the row
         Receta m = RecetaItems.get(position);
@@ -74,6 +77,10 @@ public class CustomListAdapter extends BaseAdapter {
         Categoria.setText("Categoría: " + String.valueOf(m.getCategoria()));
         // genre
         TiempoPreparacion.setText("Praparación: " + String.valueOf(m.getTiempoPraparacion()) + " min.");
+        IdReceta.setText(String.valueOf(m.getIdReceta()));
+
+        URL.setText(String.valueOf(m.getURL()));
+
 		
 		// genre
 		/*String genreStr = "";

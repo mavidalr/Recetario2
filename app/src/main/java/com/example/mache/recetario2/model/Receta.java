@@ -11,6 +11,7 @@ public class Receta {
     //nuevo
 	private int IdReceta, NumPersonas,TiempoPraparacion,Dificultad;
     private String NombreReceta, FotoReceta, Categoria;
+    private String URL;
 
 	public Receta() {
 	}
@@ -33,6 +34,7 @@ public class Receta {
         this.NumPersonas = NumPersonas;
         this.TiempoPraparacion = TiempoPraparacion;
         this.Dificultad = Dificultad;
+        this.URL = FotoReceta;
 
     }
     //nuevos get
@@ -59,6 +61,10 @@ public class Receta {
     }
     public int getDificultad() {
         return Dificultad;
+    }
+    public String getURL()
+    {
+        return URL;
     }
     //nuevos set
     public void setNombreReceta(String NombreReceta)
@@ -89,6 +95,13 @@ public class Receta {
     {
         this.Dificultad = Dificultad;
     }
+    public void setURL(String URL)
+    {
+        this.URL = URL;
+    }
+
+
+
 
 /*
     public String getTitle() {

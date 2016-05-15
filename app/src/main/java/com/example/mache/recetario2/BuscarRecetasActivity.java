@@ -1,11 +1,13 @@
 package com.example.mache.recetario2;
 
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.example.mache.recetario2.adater.CustomListAdapter;
 import com.example.mache.recetario2.app.AppController;
 //Contiene get set de Recetas
 import com.example.mache.recetario2.model.Receta;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +18,10 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -76,17 +80,65 @@ public class BuscarRecetasActivity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view,
                                     int position, long id) {
 
-                Intent intent;
+                //Intent intent;
 
-                TextView textViewNombreUsuario2 =
-                        (TextView) findViewById(R.id.Ver);
+                //TextView textViewNombreUsuario2 =
+                //        (TextView) findViewById(R.id.Ver);
 
-                TextView textView = (TextView) view.findViewById(R.id.Categoria);
-                String text = textView.getText().toString();
-                System.out.println("Seleccion = : " + text);
+                TextView twIdReceta = (TextView) view.findViewById(R.id.IdReceta);
+                TextView twURL = (TextView) view.findViewById(R.id.URL);
+                TextView twNombreReceta = (TextView) view.findViewById(R.id.NombreReceta);
+                TextView twTiempoPreparacion = (TextView) view.findViewById(R.id.TiempoPreparacion);
+                TextView twCategoria = (TextView) view.findViewById(R.id.Categoria);
+
+                String SIdReceta = twIdReceta.getText().toString();
+                String SURL = twURL.getText().toString();
+                String SNombreReceta = twNombreReceta.getText().toString();
+                String STiempoPreparacion = twTiempoPreparacion.getText().toString();
+                String SCategoria = twCategoria.getText().toString();
 
 
+                //System.out.println("IdReceta = : " + IdReceta);
+                //System.out.println("la URL = : " + URL);
+                //System.out.println("Url = : " + imgUrl);
 
+
+                /*
+                BitmapDrawable bd = (BitmapDrawable) ((NetworkImageView) view.findViewById(R.id.FotoReceta))
+                        .getDrawable();
+                Bitmap bitmap=bd.getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bd.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] imgByte = baos.toByteArray();
+
+                Intent intent = new Intent(BuscarRecetasActivity.this, MostrarRecetaActivity.class);
+                intent.putExtra("image", imgByte);
+                // any other extra you need to pass
+                //startActivity(intent);
+                */
+
+
+                //Creamos el Intent
+                Intent intent =
+                        new Intent(BuscarRecetasActivity.this, MostrarRecetaActivity.class);
+
+                //Creamos la información a pasar entre actividades
+                Bundle b = new Bundle();
+                b.putString("SIdReceta", SIdReceta);
+                b.putString("SURL", SURL);
+                b.putString("SNombreReceta", SNombreReceta);
+                b.putString("STiempoPreparacion", STiempoPreparacion);
+                b.putString("SCategoria", SCategoria);
+                //b.putString("FotoReceta", imgUrl);
+
+                //Añadimos la información al intent
+                intent.putExtras(b);
+
+                //Iniciamos la nueva actividad
+                startActivity(intent);
+
+
+/*
                 switch (position){
                     case 0:
                         intent = new Intent(BuscarRecetasActivity.this,
@@ -97,6 +149,7 @@ public class BuscarRecetasActivity extends Activity {
                         textViewNombreUsuario2.setText("asddf");
                         break;
                 }
+                */
             }
         });
 
@@ -131,8 +184,10 @@ public class BuscarRecetasActivity extends Activity {
                                 Receta.setCategoria(obj.getString("Categoria"));
                                 //Receta.setRating(((Number) obj.get("rating"))
                                 //        .doubleValue());
-                                //Receta.setYear(obj.getInt("IdReceta"));
+                                Receta.setIdReceta(obj.getInt("IdReceta"));
                                 Receta.setTiempoPraparacion(obj.getInt("TiempoPreparacion"));
+
+                                Receta.setURL(obj.getString("FotoReceta"));
 
                                 /*
                                 // Genre is json array
