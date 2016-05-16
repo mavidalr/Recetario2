@@ -44,7 +44,7 @@ import android.widget.LinearLayout;
 import android.widget.CheckBox;
 
 
-
+ 
 
 public class MostrarRecetaActivity extends AppCompatActivity {
 
