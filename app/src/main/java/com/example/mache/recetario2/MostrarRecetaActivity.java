@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,13 +46,23 @@ import android.widget.LinearLayout;
 import android.widget.CheckBox;
 
 
- 
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 
 public class MostrarRecetaActivity extends AppCompatActivity {
 
     //--Para leer Ingredientes
     // json array response url
     private String urlJsonArry = "https://dl.dropboxusercontent.com/u/3194177/Taller/BDDOnlineIngredientes.json";
+    private String urlJsonArryInstrucciones = "https://dl.dropboxusercontent.com/u/3194177/Taller/BDDOnlineInstrucciones.json";
     private String urlJsonObj = "http://api.androidhive.info/volley/person_object.json";
     private static String TAG = MostrarRecetaActivity.class.getSimpleName();
     private Button btnMakeObjectRequest, btnMakeArrayRequest;
@@ -62,8 +74,9 @@ public class MostrarRecetaActivity extends AppCompatActivity {
     private int IdReceta;
 
     //--Para el checkbox
-    //LinearLayout linearMain;
-    //CheckBox checkBox;
+    LinearLayout linearMain;
+    CheckBox checkBox;
+
 
     //Fin para leer ingredientes
 
@@ -131,13 +144,14 @@ public class MostrarRecetaActivity extends AppCompatActivity {
         //-- Para leer ingredientes
         //btnMakeObjectRequest = (Button) findViewById(R.id.btnObjRequest);
         //btnMakeArrayRequest = (Button) findViewById(R.id.btnArrayRequest);
-        txtResponse = (TextView) findViewById(R.id.cardDos);
+        //txtResponse = (TextView) findViewById(R.id.cardIngredientes);
 
         pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Cargando");
+        pDialog.setMessage("Cargando ingredientes e instrucciones");
         pDialog.setCancelable(false);
 
         makeJsonArrayRequest();
+        makeJsonArrayRequestInstrucciones();
 
 
         //-- Fin para leer ingredientes
@@ -151,6 +165,8 @@ public class MostrarRecetaActivity extends AppCompatActivity {
      * Method to make json array request where response starts with [
      * */
     private void makeJsonArrayRequest() {
+        linearMain = (LinearLayout) findViewById(R.id.linearMain);
+
         showpDialog();
 
         JsonArrayRequest req = new JsonArrayRequest(urlJsonArry,
@@ -160,6 +176,7 @@ public class MostrarRecetaActivity extends AppCompatActivity {
                         Log.d(TAG, response.toString());
 
                         try {
+                            LinkedHashMap<String, String> alphabet = new LinkedHashMap<String, String>();
                             // Parsing json array response
                             // loop through each json object
                             jsonResponse = "";
@@ -184,32 +201,124 @@ public class MostrarRecetaActivity extends AppCompatActivity {
                                     if (Medicion.equals("Unidad"))
                                     {
                                         //System.out.println("Holi, soy una unidad de ingrediente");
-                                        jsonResponse += Cantidad +" "+ NombreIngrediente+ "\n\n";
+                                        jsonResponse = Cantidad +" "+ NombreIngrediente;
                                     }
                                     else
-                                        jsonResponse += Cantidad +" "+ Medicion +" de "+ NombreIngrediente+ "\n\n";
+                                        jsonResponse = Cantidad +" "+ Medicion +" de "+ NombreIngrediente;
+
+                                    alphabet.put(String.valueOf(IdIngrediente), jsonResponse);
 
 
-
-
-
-                                    //jsonResponse += "NombreIngrediente: " + NombreIngrediente + "\n\n";
-                                    //jsonResponse += "Medicion: " + Medicion + "\n\n";
-                                    //jsonResponse += "Cantidad: " + Cantidad + "\n\n";
-
-
-                                    //JSONObject phone = person
-                                    //        .getJSONObject("phone");
-                                    //String home = phone.getString("home");
-                                    //String mobile = phone.getString("mobile");
-
-                                    //jsonResponse += "Name: " + name + "\n\n";
-                                    //jsonResponse += "Email: " + email + "\n\n";
-                                    //jsonResponse += "Home: " + home + "\n\n";
-                                    //jsonResponse += "Mobile: " + mobile + "\n\n\n";
                                 }
 
                             }
+
+                            Set<?> set = alphabet.entrySet();
+                            // Get an iterator
+                            Iterator<?> i = set.iterator();
+                            // Display elements
+                            while (i.hasNext()) {
+                                @SuppressWarnings("rawtypes")
+                                Map.Entry me = (Map.Entry) i.next();
+                                System.out.print(me.getKey() + ": ");
+                                System.out.println(me.getValue());
+                                checkBox = new CheckBox(MostrarRecetaActivity.this);
+                                //checkBox = new CheckBox(this);
+                                checkBox.setId(Integer.parseInt(me.getKey().toString()));
+                                checkBox.setText(me.getValue().toString());
+
+
+                                //checkBox.setTextSize(TypedValue.COMPLEX_UNIT_PT, 10);
+
+
+                                checkBox.setOnClickListener(getOnClickDoSomething(checkBox));
+                                linearMain.addView(checkBox);
+                            }
+
+                            //txtResponse.setText(jsonResponse);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(),
+                                    "Error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+
+                        hidepDialog();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_SHORT).show();
+                hidepDialog();
+            }
+        });
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(req);
+    }
+
+    View.OnClickListener getOnClickDoSomething(final Button button) {
+        return new View.OnClickListener() {
+            public void onClick(View v) {
+                System.out.println("*************Id******" + button.getId());
+                System.out.println("Text***" + button.getText().toString());
+            }
+        };
+    }
+
+    private void makeJsonArrayRequestInstrucciones(){
+        //linearMain = (TextView) findViewById(R.id.cardInstrucciones);
+        txtResponse = (TextView) findViewById(R.id.cardInstrucciones);
+
+        showpDialog();
+
+        JsonArrayRequest req = new JsonArrayRequest(urlJsonArryInstrucciones,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+
+                        try {
+                            LinkedHashMap<String, String> alphabet = new LinkedHashMap<String, String>();
+                            // Parsing json array response
+                            // loop through each json object
+                            jsonResponse = "";
+                            for (int i = 0; i < response.length(); i++) {
+
+                                JSONObject ingredientes = (JSONObject) response
+                                        .get(i);
+
+                                int IdRecetaJson = ingredientes.getInt("IdReceta");
+
+                                System.out.println("2json" + IdRecetaJson);
+                                System.out.println("2intent" + IdReceta);
+
+                                String TextoInstruccion;
+                                int OrdenInstruccion;
+                                int IdInstruccion;
+
+
+                                if(IdReceta == IdRecetaJson) {
+                                    TextoInstruccion = ingredientes.getString("TextoInstruccion");
+                                    OrdenInstruccion = ingredientes.getInt("OrdenInstruccion");
+                                    IdInstruccion = ingredientes.getInt("IdInstruccion");
+
+                                    jsonResponse += TextoInstruccion + "\n\n";
+
+                                    if(response.length()!=i)
+                                    {//poner linea horizontal
+                                    }
+
+
+
+                                }
+
+                            }
+
+                            jsonResponse += "\n\n";
 
                             txtResponse.setText(jsonResponse);
 

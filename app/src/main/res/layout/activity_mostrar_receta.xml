@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        android:background="@color/material_deep_teal_500"
+        android:background="#279bff"
         android:fitsSystemWindows="true">
 
         <FrameLayout
@@ -106,19 +106,14 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior">
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/linearMain"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/cardDos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="#000000"
-                android:text="Ingredientes\n\n"/>
-
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".MostrarRecetaActivity"
+            android:textSize="18sp">
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
@@ -128,7 +123,8 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior">
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -136,12 +132,12 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior">
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/cardIngredientes"
+                android:id="@+id/cardInstrucciones"
+                android:paddingBottom="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="#000000"
-                android:text="Ingrediente ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi cs\n\n"/>
+                android:textSize="15sp"
+                android:textColor="#000000"/>
 
         </LinearLayout>
 
