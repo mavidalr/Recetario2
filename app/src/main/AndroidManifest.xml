@@ -27,7 +27,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".BuscarRecetasActivity" />
-        <activity android:name=".MostrarRecetaActivity"></activity>
+        <activity android:name=".MostrarRecetaActivity" />
+        <activity android:name=".BuscarRecetasDeviceActivity"></activity>
     </application>
 
 </manifest>

@@ -97,13 +97,14 @@ public class MainActivity extends AppCompatActivity {
                                 BuscarRecetasActivity.class);
                         startActivity(intent);
                         break;
-                    /*
-                    case OPCION_INSCRIPCION:
 
-                        intent = new Intent(HomeActivity.this,
-                                InscripcionActivity.class);
+                    case OPCION_VER_RECETAS_GUARDADAS:
+
+                        intent = new Intent(MainActivity.this,
+                                BuscarRecetasDeviceActivity.class);
                         startActivity(intent);
                         break;
+                    /*
                     case OPCION_CERTIFICADOS:
                         intent = new Intent(HomeActivity.this,
                                 CertificadosActivity.class);
