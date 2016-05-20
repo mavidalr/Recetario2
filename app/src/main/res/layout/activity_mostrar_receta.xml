@@ -148,6 +148,13 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior">
 </android.support.v4.widget.NestedScrollView>
 
 
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/guardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="#1983e6"
+        android:src="@android:drawable/ic_menu_save" />
 
     </android.support.design.widget.CoordinatorLayout>

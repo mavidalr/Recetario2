@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -56,6 +57,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import java.util.ArrayList;
+
+import com.example.mache.recetario2.database.AppDatabaseHelper;
+
 
 public class MostrarRecetaActivity extends AppCompatActivity {
 
@@ -76,9 +81,34 @@ public class MostrarRecetaActivity extends AppCompatActivity {
     //--Para el checkbox
     LinearLayout linearMain;
     CheckBox checkBox;
-
-
     //Fin para leer ingredientes
+
+    //para el boton savve
+    private int G_IdReceta;
+    private String G_NombreReceta;
+    private String G_FotoReceta;
+    private int G_NumPersonas;
+    private int G_TiempoPreparacion;
+    private String G_Categoria;
+    private int G_Dificulad;
+
+    /*private int G_IdIngrediente[];
+    private String G_NombreIngrediente[];
+    private String G_Medicion[];
+    private int G_Cantidad[];
+    */
+    ArrayList<Integer> G_IdIngrediente = new ArrayList<Integer>();
+    ArrayList<String> G_NombreIngrediente = new ArrayList<String>();
+    ArrayList<String> G_Medicion = new ArrayList<String>();
+    ArrayList<Double> G_Cantidad = new ArrayList<Double>();
+
+    /*private int G_IdInstruccion[];
+    private int G_OrdenInstruccion[];
+    private String G_TextoInstruccion[];
+    */
+    ArrayList<Integer> G_IdInstruccion = new ArrayList<Integer>();
+    ArrayList<Integer> G_OrdenInstruccion = new ArrayList<Integer>();
+    ArrayList<String> G_TextoInstruccion = new ArrayList<String >();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +121,8 @@ public class MostrarRecetaActivity extends AppCompatActivity {
 
         String ID_RECETA = bundle.getString("SIdReceta");
         IdReceta = Integer.parseInt(ID_RECETA);
+        String ID_TIEMPO = bundle.getString("SIdReceta");
+        int IdTiempo = Integer.parseInt(ID_TIEMPO);
 
         //Construimos el mensaje a mostrar
         //txtSaludo.setText("Hola " + bundle.getString("NOMBRE"));
@@ -100,6 +132,14 @@ public class MostrarRecetaActivity extends AppCompatActivity {
         System.out.println("Se recibe Id = : " + bundle.getString("STiempoPreparacion"));
         System.out.println("Se recibe Id = : " + bundle.getString("SCategoria"));
         //--
+
+        G_IdReceta = IdReceta;
+        G_NombreReceta = bundle.getString("SNombreReceta");
+        G_FotoReceta = bundle.getString("SURL");
+        G_NumPersonas = 0;
+        G_TiempoPreparacion = IdTiempo;
+        G_Categoria = bundle.getString("SCategoria");
+        G_Dificulad = 0;
 
 
 
@@ -157,6 +197,22 @@ public class MostrarRecetaActivity extends AppCompatActivity {
         //-- Fin para leer ingredientes
 
 
+        FloatingActionButton Guardar = (FloatingActionButton) findViewById(R.id.guardar);
+        Guardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Click action
+                //Intent intent = new Intent(MainActivity.this, NewMessageActivity.class);
+                //startActivity(intent);
+                System.out.println("Empezar a guadar en la bdd");
+
+                AppDatabaseHelper dbHelper = new AppDatabaseHelper(MostrarRecetaActivity.this);
+                dbHelper.InsertarReceta(G_IdReceta, G_NombreReceta, G_FotoReceta, G_NumPersonas, G_TiempoPreparacion, G_Categoria, G_Dificulad);
+                System.out.println("BDD yep");
+
+            }
+        });
+
     }
     //-- Para leer ingredientes
 
@@ -194,9 +250,12 @@ public class MostrarRecetaActivity extends AppCompatActivity {
                                     String NombreIngrediente = ingredientes.getString("NombreIngrediente");
                                     String Medicion = ingredientes.getString("Medicion");
                                     Double Cantidad = ingredientes.getDouble("Cantidad");
-                                    int IdIngrediente = ingredientes.getInt("Cantidad");
+                                    int IdIngrediente = ingredientes.getInt("IdIngrediente");
 
-
+                                    G_IdIngrediente.add(IdIngrediente);
+                                    G_NombreIngrediente.add(NombreIngrediente);
+                                    G_Medicion.add(Medicion);
+                                    G_Cantidad.add(Cantidad);
 
                                     if (Medicion.equals("Unidad"))
                                     {
@@ -306,6 +365,10 @@ public class MostrarRecetaActivity extends AppCompatActivity {
                                     OrdenInstruccion = ingredientes.getInt("OrdenInstruccion");
                                     IdInstruccion = ingredientes.getInt("IdInstruccion");
 
+                                    G_TextoInstruccion.add(TextoInstruccion);
+                                    G_OrdenInstruccion.add(OrdenInstruccion);
+                                    G_IdInstruccion.add(IdInstruccion);
+
                                     jsonResponse += TextoInstruccion + "\n\n";
 
                                     if(response.length()!=i)
@@ -385,10 +448,6 @@ public class MostrarRecetaActivity extends AppCompatActivity {
         }
 
     }
-
-
-
-    //Para cargar ingredientes
 
 
 

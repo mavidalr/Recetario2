@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class AppDatabaseHelper extends SQLiteOpenHelper {
 
+    //Para guardar las imágenes iniciales
+
+
     private static final String DATABASE_NAME = "recetario.db";
     private static final int DB_VERSION = 1;
     //private static final String CREATE_TABLE_RAMOS ="CREATE TABLE " + "ramos (codigo TEXT, nombre TEXT,descripcion TEXT, profesor TEXT)";
@@ -21,8 +24,32 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             "   Categoria TEXT," +
             "   Dificultad INTEGER" +
             ");";
+
+    private static final String CREATE_TABLE_INGREDIENTES ="" +
+            "CREATE TABLE Ingredientes(" +
+            "   IdIngrediente INTEGER," +
+            "   IdReceta INTEGER," +
+            "   NombreIngrediente TEXT," +
+            "   Medicion TEXT," +
+            "   Cantidad REAL" +
+            ");";
+
+    private static final String CREATE_TABLE_INSTRUCCIONES ="" +
+            "CREATE TABLE Instrucciones(" +
+            "   IdInstruccion INTEGER," +
+            "   IdReceta INTEGER," +
+            "   OrdenInstruccion INTEGER," +
+            "   TextoInstruccion TEXT" +
+            ");";
     public static final String TABLE_RECETAS= "Recetas";
+    public static final String TABLE_INSTRUCCIONES= "Instrucciones";
+    public static final String TABLE_INGREDIENTES= "Ingredientes";
+
+
     public static final String COL_IdReceta = "IdReceta";
+    public static final String COL_IdInstrucciones = "IdInstrucciones";
+    public static final String COL_IdIngredientes = "IdIngredientes";
+
     public static final String COL_FotoReceta = "FotoReceta";
     public static final String COL_NumPersonas = "NumPersonas";
     public static final String COL_TiempoPreparacion = "TiempoPreparacion";
@@ -31,13 +58,14 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_NombreReceta = "NombreReceta";
     //public static final String COL_ = "";
 
-/*
-    public static final String TABLE_RAMOS= "Recetas";
-    public static final String COLUMN_CODIGO = "codigo";
-    public static final String COLUMN_NOMBRE = "nombre";
-    public static final String COLUMN_DESCRIPCION = "descripcion";
-    public static final String COLUMN_PROFESOR = "profesor";
-*/
+    public static final String COL_OrdenInstruccion = "OrdenInstruccion";
+    public static final String COL_TextoInstruccion = "TextoInstruccion";
+
+    public static final String COL_NombreIngrediente = "NombreIngrediente";
+    public static final String COL_Medicion = "Medicion";
+    public static final String COL_Cantidad = "Cantidad";
+
+
     public AppDatabaseHelper(Context context) {
 
         super(context, DATABASE_NAME, null, DB_VERSION);
@@ -47,9 +75,71 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
 
         database.execSQL(CREATE_TABLE_RECETAS);
-        crearDatosIniciales(database);
+        database.execSQL(CREATE_TABLE_INSTRUCCIONES);
+        database.execSQL(CREATE_TABLE_INGREDIENTES);
+        //crearDatosIniciales(database);
     }
 
+    public int InsertarReceta(int IdReceta, String NombreReceta, String FotoReceta, int NumPersonas, int TiempoPreparacion, String Categoria, int Dificultad){
+        int IdInsert = 0;
+        SQLiteDatabase db = getWritableDatabase();
+        if(db!=null){
+            ContentValues values = new ContentValues();
+            //values.put("nombre", nombre);
+
+            values.put("IdReceta", IdReceta);
+            values.put("NombreReceta", NombreReceta);
+            values.put("FotoReceta", FotoReceta);
+            values.put("NumPersonas", NumPersonas);
+            values.put("TiempoPreparacion", TiempoPreparacion);
+            values.put("Categoria", Categoria);
+            values.put("Dificultad", Dificultad);
+
+            IdInsert = (int) db.insert(TABLE_RECETAS, null, values);
+        }
+        db.close();
+        return IdInsert;
+    }
+
+    public int InsertarIngrediente(int IdIngrediente, int IdReceta, String NombreIngrediente, String Medicion, double Cantidad)
+    {
+        int IdInsert = 0;
+        SQLiteDatabase db = getWritableDatabase();
+        if(db!=null){
+            ContentValues values = new ContentValues();
+            //values.put("nombre", nombre);
+
+            values.put("IdReceta", IdReceta);
+            values.put("IdIngrediente", IdIngrediente);
+            values.put("NombreIngrediente", NombreIngrediente);
+            values.put("Medicion", Medicion);
+            values.put("Cantidad", Cantidad);
+
+            IdInsert = (int) db.insert(TABLE_INGREDIENTES, null, values);
+        }
+        db.close();
+        return IdInsert;
+    }
+
+    public int InsertarInstruccion(int IdReceta, int IdInstruccion, int OrdenInstruccion, String TextoInstruccion)
+    {
+        int IdInsert = 0;
+        SQLiteDatabase db = getWritableDatabase();
+        if(db!=null){
+            ContentValues values = new ContentValues();
+            //values.put("nombre", nombre);
+
+            values.put("IdReceta", IdReceta);
+            values.put("IdInstruccion", IdInstruccion);
+            values.put("OrdenInstruccion", OrdenInstruccion);
+            values.put("TextoInstruccion", TextoInstruccion);
+
+            IdInsert = (int) db.insert(TABLE_INSTRUCCIONES, null, values);
+        }
+        db.close();
+        return IdInsert;
+    }
+    /*
     private void crearDatosIniciales(SQLiteDatabase database) {
 
         ContentValues cv = new ContentValues();
@@ -79,6 +169,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         database.insert("Recetas", null, cv);
 
     }
+    */
 
     @Override
     public void onUpgrade(SQLiteDatabase database, int oldDBVersion, int newDBVersion) {
