@@ -1,12 +1,15 @@
 package com.example.mache.recetario2;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.http.SslCertificate;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -25,9 +28,16 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.NetworkImageView;
 import com.example.mache.recetario2.app.AppController;
 
+import org.apache.http.util.ByteArrayBuffer;
 import org.json.JSONArray;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -47,6 +57,7 @@ import android.widget.LinearLayout;
 import android.widget.CheckBox;
 
 
+import java.net.URLConnection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -58,6 +69,16 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
+
+
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+
 
 import com.example.mache.recetario2.database.AppDatabaseHelper;
 
@@ -92,6 +113,8 @@ public class MostrarRecetaActivity extends AppCompatActivity {
     private String G_Categoria;
     private int G_Dificulad;
 
+    private String G_Path;
+
     /*private int G_IdIngrediente[];
     private String G_NombreIngrediente[];
     private String G_Medicion[];
@@ -109,6 +132,8 @@ public class MostrarRecetaActivity extends AppCompatActivity {
     ArrayList<Integer> G_IdInstruccion = new ArrayList<Integer>();
     ArrayList<Integer> G_OrdenInstruccion = new ArrayList<Integer>();
     ArrayList<String> G_TextoInstruccion = new ArrayList<String >();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,8 +231,31 @@ public class MostrarRecetaActivity extends AppCompatActivity {
                 //startActivity(intent);
                 System.out.println("Empezar a guadar en la bdd");
 
+                new DownloadImage().execute(G_FotoReceta);
+
+
+
+                ImageView cargaImg = (ImageView) findViewById(R.id.pathIMG);
+
+                //Bitmap bMap = BitmapFactory.decodeFile(G_Path);
+                //cargaImg.setImageBitmap(bMap);
+                //cargaImg.setbMap(BitmapFactory.decodeFile(G_Path));
+                cargaImg.setImageBitmap(loadImageBitmap(getApplicationContext(), String.valueOf(G_IdReceta)+".png"));
+
+
+
                 AppDatabaseHelper dbHelper = new AppDatabaseHelper(MostrarRecetaActivity.this);
                 dbHelper.InsertarReceta(G_IdReceta, G_NombreReceta, G_FotoReceta, G_NumPersonas, G_TiempoPreparacion, G_Categoria, G_Dificulad);
+
+                for(int x=0;x<G_IdIngrediente.size();x++) {
+                    //System.out.println(al.get(x));
+                    dbHelper.InsertarIngrediente(G_IdReceta, G_IdIngrediente.get(x),G_NombreIngrediente.get(x),G_Medicion.get(x),G_Cantidad.get(x));
+                }
+
+                for(int y=0;y<G_IdInstruccion.size();y++) {
+                    dbHelper.InsertarInstruccion(G_IdReceta, G_IdInstruccion.get(y), G_OrdenInstruccion.get(y), G_TextoInstruccion.get(y));
+                }
+
                 System.out.println("BDD yep");
 
             }
@@ -215,6 +263,8 @@ public class MostrarRecetaActivity extends AppCompatActivity {
 
     }
     //-- Para leer ingredientes
+
+    //funcion para guardar url imagen
 
 
     /**
@@ -450,6 +500,56 @@ public class MostrarRecetaActivity extends AppCompatActivity {
     }
 
 
+
+    public void saveImage(Context context, Bitmap b, String imageName) {
+        FileOutputStream foStream;
+        try {
+            foStream = context.openFileOutput(imageName, Context.MODE_PRIVATE);
+            b.compress(Bitmap.CompressFormat.PNG, 100, foStream);
+            foStream.close();
+        } catch (Exception e) {
+            System.out.println("saveImage"+ "Exception 2, Something went wrong!");
+            e.printStackTrace();
+        }
+    }
+    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
+        private String TAG = "DownloadImage";
+        private Bitmap downloadImageBitmap(String sUrl) {
+            Bitmap bitmap = null;
+            try {
+                InputStream inputStream = new URL(sUrl).openStream();   // Download Image from URL
+                bitmap = BitmapFactory.decodeStream(inputStream);       // Decode Bitmap
+                inputStream.close();
+            } catch (Exception e) {
+                System.out.println(TAG+ "Exception 1, Something went wrong!");
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            return downloadImageBitmap(params[0]);
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            saveImage(getApplicationContext(), result, String.valueOf(G_IdReceta)+".png");
+        }
+    }
+
+    public Bitmap loadImageBitmap(Context context, String imageName) {
+        Bitmap bitmap = null;
+        FileInputStream fiStream;
+        try {
+            fiStream    = context.openFileInput(imageName);
+            bitmap      = BitmapFactory.decodeStream(fiStream);
+            fiStream.close();
+        } catch (Exception e) {
+            System.out.println("saveImage"+ "Exception 3, Something went wrong!");
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
 
 }
 

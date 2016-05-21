@@ -4,6 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.util.Log;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 
 public class AppDatabaseHelper extends SQLiteOpenHelper {
@@ -101,7 +106,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         return IdInsert;
     }
 
-    public int InsertarIngrediente(int IdIngrediente, int IdReceta, String NombreIngrediente, String Medicion, double Cantidad)
+    public int InsertarIngrediente(int IdReceta, int IdIngrediente, String NombreIngrediente, String Medicion, double Cantidad)
     {
         int IdInsert = 0;
         SQLiteDatabase db = getWritableDatabase();
@@ -175,4 +180,8 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase database, int oldDBVersion, int newDBVersion) {
 
     }
+
+
+
+
 }
