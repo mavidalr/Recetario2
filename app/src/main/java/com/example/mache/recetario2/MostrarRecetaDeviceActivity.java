@@ -3,6 +3,8 @@ package com.example.mache.recetario2;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -83,14 +85,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import com.example.mache.recetario2.database.AppDatabaseHelper;
 
 
-public class MostrarRecetaActivity extends AppCompatActivity {
+public class MostrarRecetaDeviceActivity extends AppCompatActivity {
 
     //--Para leer Ingredientes
     // json array response url
     private String urlJsonArry = "https://dl.dropboxusercontent.com/u/3194177/Taller/BDDOnlineIngredientes.json";
     private String urlJsonArryInstrucciones = "https://dl.dropboxusercontent.com/u/3194177/Taller/BDDOnlineInstrucciones.json";
     private String urlJsonObj = "http://api.androidhive.info/volley/person_object.json";
-    private static String TAG = MostrarRecetaActivity.class.getSimpleName();
+    private static String TAG = MostrarRecetaDeviceActivity.class.getSimpleName();
     private Button btnMakeObjectRequest, btnMakeArrayRequest;
     // Progress dialog
     private ProgressDialog pDialog;
@@ -104,41 +106,11 @@ public class MostrarRecetaActivity extends AppCompatActivity {
     CheckBox checkBox;
     //Fin para leer ingredientes
 
-    //para el boton savve
-    private int G_IdReceta;
-    private String G_NombreReceta;
-    private String G_FotoReceta;
-    private int G_NumPersonas;
-    private int G_TiempoPreparacion;
-    private String G_Categoria;
-    private int G_Dificulad;
-
-    private String G_Path;
-
-    /*private int G_IdIngrediente[];
-    private String G_NombreIngrediente[];
-    private String G_Medicion[];
-    private int G_Cantidad[];
-    */
-    ArrayList<Integer> G_IdIngrediente = new ArrayList<Integer>();
-    ArrayList<String> G_NombreIngrediente = new ArrayList<String>();
-    ArrayList<String> G_Medicion = new ArrayList<String>();
-    ArrayList<Double> G_Cantidad = new ArrayList<Double>();
-
-    /*private int G_IdInstruccion[];
-    private int G_OrdenInstruccion[];
-    private String G_TextoInstruccion[];
-    */
-    ArrayList<Integer> G_IdInstruccion = new ArrayList<Integer>();
-    ArrayList<Integer> G_OrdenInstruccion = new ArrayList<Integer>();
-    ArrayList<String> G_TextoInstruccion = new ArrayList<String >();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mostrar_receta);
+        setContentView(R.layout.activity_mostrar_receta_device);
 
         //--
         //Recuperamos la información pasada en el intent
@@ -158,31 +130,21 @@ public class MostrarRecetaActivity extends AppCompatActivity {
         System.out.println("Se recibe Id = : " + bundle.getString("SCategoria"));
         //--
 
-        G_IdReceta = IdReceta;
-        G_NombreReceta = bundle.getString("SNombreReceta");
-        G_FotoReceta = bundle.getString("SURL");
-        G_NumPersonas = 0;
-        G_TiempoPreparacion = IdTiempo;
-        G_Categoria = bundle.getString("SCategoria");
-        G_Dificulad = 0;
 
-
-
-
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.MyToolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.DMyToolbar);
         //setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
+                (CollapsingToolbarLayout) findViewById(R.id.Dcollapse_toolbar);
         //collapsingToolbar.setTitle("My Toolbar Tittle");
 
         //Nombre receta
         collapsingToolbar.setTitle(bundle.getString("SNombreReceta"));
 
-
+        /*
         //para agregar el fondo
-        ImageView targetImage = (ImageView)findViewById(R.id.ImagenFondo);
+        ImageView targetImage = (ImageView)findViewById(R.id.DImagenFondo);
 
         //Load bitmap from internet
         //String onLineImage = "https://www.meals.com/ImagesRecipes/146232lrg.jpg";
@@ -195,7 +157,11 @@ public class MostrarRecetaActivity extends AppCompatActivity {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        */
 
+        //Cargar img de fondo
+        ImageView targetImage = (ImageView)findViewById(R.id.DImagenFondo);
+        targetImage.setImageBitmap(loadImageBitmap(getApplicationContext(), ID_RECETA + ".png"));
 
 
 
@@ -215,61 +181,110 @@ public class MostrarRecetaActivity extends AppCompatActivity {
         pDialog.setMessage("Cargando ingredientes e instrucciones");
         pDialog.setCancelable(false);
 
-        makeJsonArrayRequest();
-        makeJsonArrayRequestInstrucciones();
+        //makeJsonArrayRequest();
+        linearMain = (LinearLayout) findViewById(R.id.DlinearMain);
+
+        //para el checkbox
+        LinkedHashMap<String, String> alphabet = new LinkedHashMap<String, String>();
+        String TextoColumna;
+
+        showpDialog();
+
+        //se hace la consulta:
+        //Leyendo datos
+        AppDatabaseHelper appDatabaseHelper = new AppDatabaseHelper(getApplicationContext());
+        SQLiteDatabase database = appDatabaseHelper.getReadableDatabase();
+
+        String[] args = new String[] {ID_RECETA};
+
+        Cursor resultados = database.query(AppDatabaseHelper.TABLE_INGREDIENTES,
+                null,"IdReceta=?",args,null,null,AppDatabaseHelper.COL_IdIngrediente);
+        //Estructura de query()
+        //query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy, String limit)
+
+        //Se recorre el arreglo de ingredientes:
+        //Nos aseguramos de que existe al menos un registro
+        if (resultados.moveToFirst()) {
+            System.out.println("EL IF");
+            //Recorremos el cursor hasta que no haya más registros
+            String NombreIngrediente;
+            String Medicion;
+            Double Cantidad;
+            int IdIngrediente;
+            do {
+                System.out.println("Hay ingredientes");
+                //Se obtienen los campos de cada columna
+                NombreIngrediente = resultados.getString(resultados.getColumnIndex(AppDatabaseHelper.COL_NombreIngrediente));
+                Medicion = resultados.getString(resultados.getColumnIndex(AppDatabaseHelper.COL_Medicion));
+                Cantidad = resultados.getDouble(resultados.getColumnIndex(AppDatabaseHelper.COL_Cantidad));
+                IdIngrediente = resultados.getInt(resultados.getColumnIndex(AppDatabaseHelper.COL_IdIngrediente));
+
+                if (Medicion.equals("Unidad"))
+                {
+                    //System.out.println("Holi, soy una unidad de ingrediente");
+                    TextoColumna = Cantidad +" "+ NombreIngrediente;
+                }
+                else
+                    TextoColumna = Cantidad +" "+ Medicion +" de "+ NombreIngrediente;
+
+                alphabet.put(String.valueOf(IdIngrediente), TextoColumna);
+
+
+            } while(resultados.moveToNext());
+        }
+
+        Set<?> set = alphabet.entrySet();
+        // Get an iterator
+        Iterator<?> i = set.iterator();
+        // Display elements
+        while (i.hasNext()) {
+            @SuppressWarnings("rawtypes")
+            Map.Entry me = (Map.Entry) i.next();
+            System.out.print(me.getKey() + ": ");
+            System.out.println(me.getValue());
+            checkBox = new CheckBox(MostrarRecetaDeviceActivity.this);
+            //checkBox = new CheckBox(this);
+            checkBox.setId(Integer.parseInt(me.getKey().toString()));
+            checkBox.setText(me.getValue().toString());
+
+
+            //checkBox.setTextSize(TypedValue.COMPLEX_UNIT_PT, 10);
+
+
+            checkBox.setOnClickListener(getOnClickDoSomething(checkBox));
+            linearMain.addView(checkBox);
+        }
+
+        String TextoInstrucciones = "";
+        String TextoInstruccion;
+        String[] campos = new String[] {"TextoInstruccion"};
+
+        resultados = database.query(AppDatabaseHelper.TABLE_INSTRUCCIONES,
+                campos,"IdReceta=?",args,null,null,AppDatabaseHelper.COL_OrdenInstruccion);
+
+
+        if (resultados.moveToFirst()) {
+
+            do {
+                TextoInstruccion = resultados.getString(resultados.getColumnIndex(AppDatabaseHelper.COL_TextoInstruccion));
+
+                TextoInstrucciones += TextoInstruccion + "\n\n";
+
+            } while(resultados.moveToNext());
+        }
+        TextoInstrucciones += "\n\n";
+        TextView txtResponse = (TextView) findViewById(R.id.DcardInstrucciones);
+        txtResponse.setText(TextoInstrucciones);
+
+        hidepDialog();
+
+
+
+
+        //makeJsonArrayRequestInstrucciones();
 
 
         //-- Fin para leer ingredientes
-
-
-        FloatingActionButton Guardar = (FloatingActionButton) findViewById(R.id.guardar);
-        Guardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Click action
-                //Intent intent = new Intent(MainActivity.this, NewMessageActivity.class);
-                //startActivity(intent);
-                System.out.println("Empezar a guadar en la bdd");
-
-                new DownloadImage().execute(G_FotoReceta);
-
-
-
-                //ImageView cargaImg = (ImageView) findViewById(R.id.pathIMG);
-
-                //Bitmap bMap = BitmapFactory.decodeFile(G_Path);
-                //cargaImg.setImageBitmap(bMap);
-                //cargaImg.setbMap(BitmapFactory.decodeFile(G_Path));
-
-
-                //carga la img
-                //cargaImg.setImageBitmap(loadImageBitmap(getApplicationContext(), String.valueOf(G_IdReceta)+".png"));
-
-
-
-                AppDatabaseHelper dbHelper = new AppDatabaseHelper(MostrarRecetaActivity.this);
-                //dbHelper.InsertarReceta(G_IdReceta, G_NombreReceta, G_FotoReceta, G_NumPersonas, G_TiempoPreparacion, G_Categoria, G_Dificulad);
-
-                for(int x=0;x<G_IdIngrediente.size();x++) {
-                    System.out.println("Hay ingredientes");
-                    dbHelper.InsertarIngrediente(G_IdReceta, G_IdIngrediente.get(x),G_NombreIngrediente.get(x),G_Medicion.get(x),G_Cantidad.get(x));
-                }
-
-                for(int y=0;y<G_IdInstruccion.size();y++) {
-                    System.out.println("Hay instrucciones");
-                    dbHelper.InsertarInstruccion(G_IdReceta, G_IdInstruccion.get(y), G_OrdenInstruccion.get(y), G_TextoInstruccion.get(y));
-                }
-
-                File file            = getApplicationContext().getFileStreamPath(String.valueOf(G_IdReceta) + ".png");
-                String imageFullPath = file.getAbsolutePath();
-                G_Path = imageFullPath;
-
-                dbHelper.InsertarReceta(G_IdReceta, G_NombreReceta, G_Path, G_NumPersonas, G_TiempoPreparacion, G_Categoria, G_Dificulad);
-                System.out.println("BDD yep");
-                System.out.print(G_Path);
-
-            }
-        });
 
     }
     //-- Para leer ingredientes
@@ -312,10 +327,6 @@ public class MostrarRecetaActivity extends AppCompatActivity {
                                     Double Cantidad = ingredientes.getDouble("Cantidad");
                                     int IdIngrediente = ingredientes.getInt("IdIngrediente");
 
-                                    G_IdIngrediente.add(IdIngrediente);
-                                    G_NombreIngrediente.add(NombreIngrediente);
-                                    G_Medicion.add(Medicion);
-                                    G_Cantidad.add(Cantidad);
 
                                     if (Medicion.equals("Unidad"))
                                     {
@@ -341,7 +352,7 @@ public class MostrarRecetaActivity extends AppCompatActivity {
                                 Map.Entry me = (Map.Entry) i.next();
                                 System.out.print(me.getKey() + ": ");
                                 System.out.println(me.getValue());
-                                checkBox = new CheckBox(MostrarRecetaActivity.this);
+                                checkBox = new CheckBox(MostrarRecetaDeviceActivity.this);
                                 //checkBox = new CheckBox(this);
                                 checkBox.setId(Integer.parseInt(me.getKey().toString()));
                                 checkBox.setText(me.getValue().toString());
@@ -425,9 +436,6 @@ public class MostrarRecetaActivity extends AppCompatActivity {
                                     OrdenInstruccion = ingredientes.getInt("OrdenInstruccion");
                                     IdInstruccion = ingredientes.getInt("IdInstruccion");
 
-                                    G_TextoInstruccion.add(TextoInstruccion);
-                                    G_OrdenInstruccion.add(OrdenInstruccion);
-                                    G_IdInstruccion.add(IdInstruccion);
 
                                     jsonResponse += TextoInstruccion + "\n\n";
 
@@ -521,7 +529,6 @@ public class MostrarRecetaActivity extends AppCompatActivity {
             System.out.println("saveImage"+ "Exception 2, Something went wrong!");
             e.printStackTrace();
         }
-
     }
     private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
         private String TAG = "DownloadImage";
@@ -544,7 +551,7 @@ public class MostrarRecetaActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(Bitmap result) {
-            saveImage(getApplicationContext(), result, String.valueOf(G_IdReceta)+".png");
+            //saveImage(getApplicationContext(), result, String.valueOf(G_IdReceta)+".png");
         }
     }
 
@@ -559,10 +566,10 @@ public class MostrarRecetaActivity extends AppCompatActivity {
             System.out.println("saveImage"+ "Exception 3, Something went wrong!");
             e.printStackTrace();
         }
-
-
         return bitmap;
     }
+
+
 
 }
 

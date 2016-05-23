@@ -7,11 +7,9 @@
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
 
     <application
         android:name=".app.AppController"
@@ -29,7 +27,9 @@
         </activity>
         <activity android:name=".BuscarRecetasActivity" />
         <activity android:name=".MostrarRecetaActivity" />
-        <activity android:name=".BuscarRecetasDeviceActivity"></activity>
+        <activity android:name=".BuscarRecetasDeviceActivity" />
+        <activity android:name=".MostrarRecetaDevice" />
+        <activity android:name=".MostrarRecetaDeviceActivity"></activity>
     </application>
 
 </manifest>

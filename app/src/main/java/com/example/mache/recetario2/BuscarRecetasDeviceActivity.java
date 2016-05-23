@@ -3,6 +3,7 @@ package com.example.mache.recetario2;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.example.mache.recetario2.adater.CustomListAdapter;
+import com.example.mache.recetario2.adater.CustomListAdapterDevice;
 import com.example.mache.recetario2.app.AppController;
 //Contiene get set de Recetas
 import com.example.mache.recetario2.database.AppDatabaseHelper;
@@ -53,7 +54,7 @@ public class BuscarRecetasDeviceActivity extends Activity {
     private ProgressDialog pDialog;
     private List<Receta> RecetaList = new ArrayList<Receta>();
     private ListView listView;
-    private CustomListAdapter adapter;
+    private CustomListAdapterDevice adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,9 @@ public class BuscarRecetasDeviceActivity extends Activity {
         setContentView(R.layout.activity_buscar_recetas_device);
 
         listView = (ListView) findViewById(R.id.Devicelist);
-        adapter = new CustomListAdapter(this, RecetaList);
+        //adapter = new CustomListAdapter(this, RecetaList);
+        adapter = new CustomListAdapterDevice(this, RecetaList);
+
         listView.setAdapter(adapter);
 
         /*
@@ -88,11 +91,11 @@ public class BuscarRecetasDeviceActivity extends Activity {
                 //TextView textViewNombreUsuario2 =
                 //        (TextView) findViewById(R.id.Ver);
 
-                TextView twIdReceta = (TextView) view.findViewById(R.id.IdReceta);
-                TextView twURL = (TextView) view.findViewById(R.id.URL);
-                TextView twNombreReceta = (TextView) view.findViewById(R.id.NombreReceta);
-                TextView twTiempoPreparacion = (TextView) view.findViewById(R.id.TiempoPreparacion);
-                TextView twCategoria = (TextView) view.findViewById(R.id.Categoria);
+                TextView twIdReceta = (TextView) view.findViewById(R.id.DIdReceta);
+                TextView twURL = (TextView) view.findViewById(R.id.DURL);
+                TextView twNombreReceta = (TextView) view.findViewById(R.id.DNombreReceta);
+                TextView twTiempoPreparacion = (TextView) view.findViewById(R.id.DTiempoPreparacion);
+                TextView twCategoria = (TextView) view.findViewById(R.id.DCategoria);
 
                 String SIdReceta = twIdReceta.getText().toString();
                 String SURL = twURL.getText().toString();
@@ -123,7 +126,7 @@ public class BuscarRecetasDeviceActivity extends Activity {
 
                 //Creamos el Intent
                 Intent intent =
-                        new Intent(BuscarRecetasDeviceActivity.this, MostrarRecetaActivity.class);
+                        new Intent(BuscarRecetasDeviceActivity.this, MostrarRecetaDeviceActivity.class);
 
                 //Creamos la información a pasar entre actividades
                 Bundle b = new Bundle();
@@ -176,6 +179,7 @@ public class BuscarRecetasDeviceActivity extends Activity {
         String NombreReceta;
         String Categoria;
         Integer TiempoPreparacion;
+        String PathReceta;
         //String URL;
         while(resultados.moveToNext()){
             Receta Receta = new Receta();
@@ -184,11 +188,15 @@ public class BuscarRecetasDeviceActivity extends Activity {
             NombreReceta = resultados.getString(resultados.getColumnIndex(AppDatabaseHelper.COL_NombreReceta));
             Categoria = resultados.getString(resultados.getColumnIndex(AppDatabaseHelper.COL_Categoria));
             TiempoPreparacion = resultados.getInt(resultados.getColumnIndex(AppDatabaseHelper.COL_TiempoPreparacion));
+            PathReceta = resultados.getString(resultados.getColumnIndex(AppDatabaseHelper.COL_FotoReceta));
 
 
 
             Receta.setNombreReceta(NombreReceta);
-            //Receta.setFotoReceta("https://www.meals.com/ImagesRecipes/121609lrg.jpg");
+
+
+            //LA FOTO
+            Receta.setFotoReceta(PathReceta);
             Receta.setCategoria(Categoria);
             //Receta.setRating(((Number) obj.get("rating"))
             //        .doubleValue());

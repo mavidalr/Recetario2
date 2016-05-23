@@ -52,8 +52,8 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
 
 
     public static final String COL_IdReceta = "IdReceta";
-    public static final String COL_IdInstrucciones = "IdInstrucciones";
-    public static final String COL_IdIngredientes = "IdIngredientes";
+    public static final String COL_IdInstruccion = "IdInstruccion";
+    public static final String COL_IdIngrediente = "IdIngrediente";
 
     public static final String COL_FotoReceta = "FotoReceta";
     public static final String COL_NumPersonas = "NumPersonas";

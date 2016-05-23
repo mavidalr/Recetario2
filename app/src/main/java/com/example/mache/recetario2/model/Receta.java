@@ -1,5 +1,7 @@
 package com.example.mache.recetario2.model;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 
 public class Receta {
@@ -144,5 +146,15 @@ public class Receta {
 		this.genre = genre;
 	}
 	*/
+
+    public Bitmap getThumb() {
+        return thumb;
+    }
+
+    public void setThumb(Bitmap thumb) {
+        this.thumb = thumb;
+    }
+
+    Bitmap thumb;
 
 }
