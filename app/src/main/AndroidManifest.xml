@@ -29,7 +29,8 @@
         <activity android:name=".MostrarRecetaActivity" />
         <activity android:name=".BuscarRecetasDeviceActivity" />
         <activity android:name=".MostrarRecetaDevice" />
-        <activity android:name=".MostrarRecetaDeviceActivity"></activity>
+        <activity android:name=".MostrarRecetaDeviceActivity" />
+        <activity android:name=".CrearRecetaActivity"></activity>
     </application>
 
 </manifest>

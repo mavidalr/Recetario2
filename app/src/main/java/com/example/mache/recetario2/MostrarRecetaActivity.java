@@ -77,7 +77,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-
+import org.w3c.dom.Text;
 
 
 import com.example.mache.recetario2.database.AppDatabaseHelper;
@@ -146,8 +146,20 @@ public class MostrarRecetaActivity extends AppCompatActivity {
 
         String ID_RECETA = bundle.getString("SIdReceta");
         IdReceta = Integer.parseInt(ID_RECETA);
-        String ID_TIEMPO = bundle.getString("SIdReceta");
-        int IdTiempo = Integer.parseInt(ID_TIEMPO);
+        String TIEMPO = bundle.getString("STiempoPreparacion");
+        String CATEGORIA = bundle.getString("SCategoria");
+
+
+
+        String delims = "[ ]";
+        String[] tokens = TIEMPO.split(delims);
+        //System.out.println(tokens[1]);
+        int Tiempo = Integer.parseInt(tokens[1]);
+        tokens = CATEGORIA.split(delims);
+
+
+
+        //int IdTiempo = Integer.parseInt(ID_TIEMPO);
 
         //Construimos el mensaje a mostrar
         //txtSaludo.setText("Hola " + bundle.getString("NOMBRE"));
@@ -162,8 +174,8 @@ public class MostrarRecetaActivity extends AppCompatActivity {
         G_NombreReceta = bundle.getString("SNombreReceta");
         G_FotoReceta = bundle.getString("SURL");
         G_NumPersonas = 0;
-        G_TiempoPreparacion = IdTiempo;
-        G_Categoria = bundle.getString("SCategoria");
+        G_TiempoPreparacion = Tiempo;
+        G_Categoria = tokens[1];
         G_Dificulad = 0;
 
 
@@ -179,6 +191,9 @@ public class MostrarRecetaActivity extends AppCompatActivity {
 
         //Nombre receta
         collapsingToolbar.setTitle(bundle.getString("SNombreReceta"));
+
+        TextView PrimerCard = (TextView) findViewById(R.id.cardUno);
+        PrimerCard.setText("Categoría: "+G_Categoria + "\n\n" +"Tiempo de preparación: "+ G_TiempoPreparacion);
 
 
         //para agregar el fondo
