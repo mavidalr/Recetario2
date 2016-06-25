@@ -118,8 +118,16 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
 
         String ID_RECETA = bundle.getString("SIdReceta");
         IdReceta = Integer.parseInt(ID_RECETA);
-        String ID_TIEMPO = bundle.getString("SIdReceta");
-        int IdTiempo = Integer.parseInt(ID_TIEMPO);
+        String TIEMPO = bundle.getString("STiempoPreparacion");
+        String CATEGORIA = bundle.getString("SCategoria");
+
+
+
+        String delims = "[ ]";
+        String[] tokens = TIEMPO.split(delims);
+        //System.out.println(tokens[1]);
+        int Tiempo = Integer.parseInt(tokens[1]);
+        tokens = CATEGORIA.split(delims);
 
         //Construimos el mensaje a mostrar
         //txtSaludo.setText("Hola " + bundle.getString("NOMBRE"));
@@ -131,9 +139,9 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
         //--
 
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.DMyToolbar);
+        //final Toolbar toolbar = (Toolbar) findViewById(R.id.DMyToolbar);
         //setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.Dcollapse_toolbar);
@@ -162,6 +170,9 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
         //Cargar img de fondo
         ImageView targetImage = (ImageView)findViewById(R.id.DImagenFondo);
         targetImage.setImageBitmap(loadImageBitmap(getApplicationContext(), ID_RECETA + ".png"));
+
+        TextView PrimerCard = (TextView) findViewById(R.id.DcardUno);
+        PrimerCard.setText("Categoría: "+tokens[1] + "\n\n" +"Tiempo de preparación: "+ Tiempo + " min.");
 
 
 

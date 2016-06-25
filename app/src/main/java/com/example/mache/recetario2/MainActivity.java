@@ -28,11 +28,11 @@ public class MainActivity extends AppCompatActivity {
     private static RecyclerView recyclerView;
 
     //String and Integer array for Recycler View Items
-    public static final String[] TITLES= {"Hood","Full Sleeve Shirt","Shirt","Jean Jacket","Jacket"};
+    public static final String[] TITLES= {"Ver +","Ver +","Ver +","Ver +","Ver +"};
     public static final Integer[] IMAGES= {R.drawable.uno,R.drawable.dos,R.drawable.tres,R.drawable.uno,R.drawable.dos};
 
     //nuevo
-    public static final String[] CATEGORIAS= {"Hofgdod","Fuldfgl Sleeve Shirt","Shdfgirt","Jeadfgn Jacket","Jackedfgt"};
+    public static final String[] CATEGORIAS= {"Sandwiches","Postres","Fondos","Sandwiches","Postres"};
 
     private static String navigateFrom;//String to get Intent Value
     //--
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Set RecyclerView type according to intent value
         if (navigateFrom.equals("horizontal")) {
-            getSupportActionBar().setTitle("Horizontal Recycler View");
+            getSupportActionBar().setTitle("Recetario || Menú principal");
             recyclerView
                     .setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
         } else {

@@ -181,9 +181,9 @@ public class MostrarRecetaActivity extends AppCompatActivity {
 
 
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.MyToolbar);
+        //final Toolbar toolbar = (Toolbar) findViewById(R.id.MyToolbar);
         //setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
@@ -193,7 +193,7 @@ public class MostrarRecetaActivity extends AppCompatActivity {
         collapsingToolbar.setTitle(bundle.getString("SNombreReceta"));
 
         TextView PrimerCard = (TextView) findViewById(R.id.cardUno);
-        PrimerCard.setText("Categoría: "+G_Categoria + "\n\n" +"Tiempo de preparación: "+ G_TiempoPreparacion);
+        PrimerCard.setText("Categoría: "+G_Categoria + "\n\n" +"Tiempo de preparación: "+ G_TiempoPreparacion+" min.");
 
 
         //para agregar el fondo

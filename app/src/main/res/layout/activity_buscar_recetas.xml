@@ -12,7 +12,7 @@
         android:dividerHeight="1dp"
         android:listSelector="@drawable/list_row_selector" />
 
-    //nuevo
+
     <TextView
         android:id="@+id/Ver"
         android:layout_width="wrap_content"

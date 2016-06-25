@@ -77,10 +77,11 @@ public class BuscarRecetasDeviceActivity extends Activity {
         */
 
         //awesome font
+        /*
         Typeface fontAwesomeFont = Typeface.createFromAsset(getAssets(), "fontawesome-webfont.ttf");
         TextView fontAwesomeAndroidIcon = (TextView) findViewById(R.id.Ver);
         fontAwesomeAndroidIcon.setTypeface(fontAwesomeFont);
-
+*/
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,

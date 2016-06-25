@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -9,21 +13,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.mache.recetario2.CrearRecetaActivity">
 
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
         <TextView
             android:layout_width="270dp"
             android:layout_height="41dp"
             android:text="Nombre de la receta"
             android:id="@+id/TCRNombreReceta"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <EditText
             android:layout_width="match_parent"
@@ -31,183 +26,167 @@
             android:id="@+id/CRNombreReceta"
             android:layout_row="1"
             android:layout_column="0"
-            android:textSize="14dp" />
+            android:textSize="14sp"
+            android:layout_below="@+id/TCRNombreReceta"/>
 
         <TextView
             android:layout_width="270dp"
             android:layout_height="41dp"
             android:text="Categoría"
             android:id="@+id/TCRCategoria"
-            android:layout_row="2"
-            android:layout_column="0"
-            android:textSize="20dp" />
+            android:textSize="20sp"
+            android:layout_below="@+id/CRNombreReceta"/>
 
         <Spinner
             android:id="@+id/CRCategoria"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_row="3"
-            android:layout_column="0"
             android:entries="@array/Categorias"
-            android:prompt="@string/Categorias_prompt" />
+            android:prompt="@string/Categorias_prompt"
+            android:layout_below="@+id/TCRCategoria"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="74dp"
-            android:layout_row="4"
-            android:layout_column="0"
-            android:layout_rowSpan="16">
+    <TextView
+        android:layout_width="270dp"
+        android:layout_height="41dp"
+        android:text="Cantidad de porciones"
+        android:id="@+id/TCRPorciones"
+        android:textSize="20sp"
+        android:layout_below="@+id/CRCategoria"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="41dp"
-                android:text="Porciones"
-                android:id="@+id/TCRPorciones"
-                android:layout_row="2"
-                android:layout_column="0"
-                android:textSize="20dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/CRPorciones"
+        android:layout_below="@+id/TCRPorciones"
+ />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="41dp"
-                android:text="T. de preparación"
-                android:id="@+id/TCRTiempoPreparacion"
-                android:layout_row="2"
-                android:layout_column="0"
-                android:textSize="20dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+    <TextView
+        android:layout_width="270dp"
+        android:layout_height="41dp"
+        android:text="Tiempo de preparación"
+        android:id="@+id/TCRTiempoPreparacion"
+        android:textSize="20sp"
+        android:layout_below="@+id/CRPorciones"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="41dp"
-                android:text="Dificultad"
-                android:id="@+id/TCRDificultad"
-                android:layout_row="2"
-                android:layout_column="0"
-                android:textSize="20dp"
-                android:layout_alignBottom="@+id/TCRTiempoPreparacion"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/CRTiempoPreparacion"
+        android:layout_below="@+id/TCRTiempoPreparacion"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/editText"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_toLeftOf="@+id/TCRTiempoPreparacion"
-                android:layout_toStartOf="@+id/TCRTiempoPreparacion" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="(minutos)"
+        android:id="@+id/textView"
+        android:layout_alignBottom="@+id/CRTiempoPreparacion"
+        android:layout_toRightOf="@+id/CRTiempoPreparacion"
+        android:layout_toEndOf="@+id/CRTiempoPreparacion" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/editText2"
-                android:layout_alignBottom="@+id/editText"
-                android:layout_toRightOf="@+id/editText"
-                android:layout_alignRight="@+id/TCRTiempoPreparacion"
-                android:layout_alignEnd="@+id/TCRTiempoPreparacion"
-                android:layout_alignParentStart="false" />
+    <TextView
+        android:layout_width="270dp"
+        android:layout_height="41dp"
+        android:text="Dificultad"
+        android:id="@+id/TCRDificultad"
+        android:textSize="20sp"
+        android:layout_below="@+id/CRTiempoPreparacion"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/editText3"
-                android:layout_alignBottom="@+id/editText2"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_toRightOf="@+id/TCRTiempoPreparacion"
-                android:layout_toEndOf="@+id/TCRTiempoPreparacion" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/CRDificultad"
+        android:layout_below="@+id/TCRDificultad"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
+    <RelativeLayout
+    android:id="@+id/botonesIngrediente"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:layout_below="@+id/CRDificultad">
 
-        </RelativeLayout>
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="+ Ingrediente"
+        android:id="@+id/CRAgregarIngrediente"/>
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver ingredientes"
+        android:id="@+id/CRVerIngredientes"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="182dp"
-            android:layout_row="20"
-            android:layout_column="0">
+</RelativeLayout>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+Ingrediente"
-                android:id="@+id/AgregarIngrediente"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+Instrucción"
-                android:id="@+id/button"
-                android:layout_below="@+id/AgregarIngrediente" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ver instrucciones"
-                android:id="@+id/button2"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ver Ingredientes"
-                android:id="@+id/button3"
-                android:layout_alignTop="@+id/button"
-                android:layout_alignLeft="@+id/button2"
-                android:layout_alignStart="@+id/button2"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+Imagen"
-                android:id="@+id/button4"
-                android:layout_below="@+id/button"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/button"
-                android:layout_alignEnd="@+id/button" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ver Imagen"
-                android:id="@+id/button5"
-                android:layout_alignBottom="@+id/button4"
-                android:layout_alignRight="@+id/button3"
-                android:layout_alignEnd="@+id/button3"
-                android:layout_alignLeft="@+id/button3"
-                android:layout_alignStart="@+id/button3" />
-        </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/botonesInstruccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_below="@+id/botonesIngrediente">
 
         <Button
-            android:layout_width="match_parent"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crear receta"
-            android:id="@+id/btnCrearReceta"
-            android:layout_row="22"
-            android:layout_column="0"
-            android:textAlignment="center"
-            android:layout_gravity="center_horizontal" />
+            android:layout_alignParentLeft="true"
+            android:text="+ Instrucción"
+            android:id="@+id/CRAgregarInstruccion"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Ver instrucciones"
+            android:id="@+id/CRVerInstrucciones"/>
+
+    </RelativeLayout>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:id="@+id/btnAgregarImagen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/botonesInstruccion"
+        android:text="Agregar imagen"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:id="@+id/btnCrearReceta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Crear receta"
+        android:layout_below="@+id/btnAgregarImagen"
+        android:enabled="true" />
 
 
-    </GridLayout>
+
+
 </RelativeLayout>
+</ScrollView>
+
+
+
