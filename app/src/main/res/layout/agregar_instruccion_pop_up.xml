@@ -25,10 +25,15 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_launcher" />
             <Button
+                android:id="@+id/OKAgregarInstruccion"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Agregar" />
+            <Button
                 android:id="@+id/cancelAgregarInstruccion"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Dismiss" />
+                android:text="Cancelar" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

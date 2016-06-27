@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
@@ -39,7 +40,18 @@ import android.view.ViewGroup.LayoutParams;
 public class CrearRecetaActivity extends AppCompatActivity {
 
     private Spinner spinner1;
+
+    private Spinner spinnerIngrediente;
+
     private Button btnSubmit;
+
+    //para ingredientes
+    private EditText ValorNombreIngrediente;
+    private EditText ValorCantidadIngrediente;
+    private Double CantidadIngrediente = 0.0;
+
+    //para instrucciones
+    private EditText ValorTextoInstruccion;
 
     //ArrayList<Integer> G_IdIngrediente = new ArrayList<Integer>();
     ArrayList<String> G_NombreIngrediente = new ArrayList<String>();
@@ -56,35 +68,44 @@ public class CrearRecetaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_receta);
 
+        ValorCantidadIngrediente = (EditText)findViewById(R.id.CRCantidadIngrediente);
+        ValorTextoInstruccion = (EditText)findViewById(R.id.CRTextoInstruccion);
+        ValorNombreIngrediente = (EditText)findViewById(R.id.CRNombreIngrediente);
+
+
+        //addListenerOnSpinnerItemSelection();
+        //addListenerOnButton();
 
         //iniciar pop up agregarIngrediente
+        spinnerIngrediente = (Spinner) findViewById(R.id.CRCategoriaIngredientes);
+
         final Button btnAgregarIngrediente = (Button)findViewById(R.id.CRAgregarIngrediente);
         btnAgregarIngrediente.setOnClickListener(new Button.OnClickListener(){
 
+
             @Override
             public void onClick(View arg0) {
-                LayoutInflater layoutInflater
-                        = (LayoutInflater)getBaseContext()
-                        .getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView = layoutInflater.inflate(R.layout.agregar_ingrediente_pop_up, null);
-                final PopupWindow popupWindow = new PopupWindow(
-                        popupView,
-                        LayoutParams.WRAP_CONTENT,
-                        LayoutParams.WRAP_CONTENT);
 
-                Button btnDismiss = (Button)popupView.findViewById(R.id.cancelAgregarIngrediente);
-                btnDismiss.setOnClickListener(new Button.OnClickListener(){
+                //Hace algo
+                CantidadIngrediente = Double.parseDouble(ValorCantidadIngrediente.getText().toString());
+                G_Cantidad.add(CantidadIngrediente);
+                System.out.println(G_Cantidad);
 
-                    @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
-                        popupWindow.dismiss();
-                    }});
 
-                //popupWindow.showAsDropDown(btnOpenPopup, 50, -50);
-                popupWindow.showAtLocation(btnAgregarIngrediente, Gravity.CENTER, 0, 0);
+                Toast.makeText(CrearRecetaActivity.this,
+                        "HOLI, agrego ingrediente tipo: " + String.valueOf(spinnerIngrediente.getSelectedItem() +
+                                ValorNombreIngrediente.getText().toString() +
+                                ValorCantidadIngrediente.getText().toString()),
+                        Toast.LENGTH_SHORT).show();
+
+
+
+
 
             }});
+
+
+
 
         //iniciar pop up AgregarInstruccion
         final Button btnAgregarInstruccion = (Button)findViewById(R.id.CRAgregarInstruccion);
@@ -108,6 +129,17 @@ public class CrearRecetaActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         // TODO Auto-generated method stub
                         popupWindow.dismiss();
+                    }});
+
+                Button OKAgregarInstruccion = (Button)popupView.findViewById(R.id.OKAgregarInstruccion);
+                OKAgregarInstruccion.setOnClickListener(new Button.OnClickListener(){
+
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(CrearRecetaActivity.this,
+                                "HOLI, agrego instruccion",
+                                Toast.LENGTH_SHORT).show();
+
                     }});
 
                 //popupWindow.showAsDropDown(btnOpenPopup, 50, -50);
@@ -174,8 +206,9 @@ public class CrearRecetaActivity extends AppCompatActivity {
             }});
 
 
-        //addListenerOnSpinnerItemSelection();
-        addListenerOnButton();
+
+
+
 
         Button btnCrearReceta = (Button) findViewById(R.id.btnCrearReceta);
         Button btnAgregarImagen = (Button) findViewById(R.id.btnAgregarImagen);
@@ -196,22 +229,6 @@ public class CrearRecetaActivity extends AppCompatActivity {
             }
         });
 
-       /* btnAgregarIngrediente.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                Toast.makeText(CrearRecetaActivity.this,
-                        "Se abre pop up con agregar ingrediente",
-                        Toast.LENGTH_SHORT).show();
-
-            }
-        });
-*/
-
-
-
-
     }
 
 
@@ -224,12 +241,17 @@ public class CrearRecetaActivity extends AppCompatActivity {
     public void addListenerOnSpinnerItemSelection() {
         spinner1 = (Spinner) findViewById(R.id.CRCategoria);
         spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+        //spinnerIngrediente = (Spinner) findViewById(R.id.CRCategoriaIngredientes);
+        //spinnerIngrediente.setOnItemSelectedListener(new CustomOnItemSelectedListener());
     }
 
     // get the selected dropdown list value
     public void addListenerOnButton() {
 
         spinner1 = (Spinner) findViewById(R.id.CRCategoria);
+        spinnerIngrediente = (Spinner) findViewById(R.id.CRCategoriaIngredientes);
+        //String.valueOf(spinner1.getSelectedItem())
+
         //spinner2 = (Spinner) findViewById(R.id.spinner2);
         btnSubmit = (Button) findViewById(R.id.btnCrearReceta);
 

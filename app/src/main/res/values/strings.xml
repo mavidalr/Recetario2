@@ -21,4 +21,19 @@
         <item>Sopas y cremas</item>
 
     </string-array>
+
+    <string name="Categorias_prompt_ingredientes">Seleccione medida</string>
+
+    <string-array name="CategoriasIngredientes">
+        <item>CC</item>
+        <item>Cucharada(s)</item>
+        <item>Cucharadita(s)</item>
+        <item>Gramos</item>
+        <item>Litro(s)</item>
+        <item>ml</item>
+        <item>Pizca</item>
+        <item>Taza(s)</item>
+        <item>Unidad</item>
+
+    </string-array>
 </resources>
