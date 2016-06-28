@@ -2,6 +2,7 @@ package com.example.mache.recetario2.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
@@ -104,6 +105,44 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         }
         db.close();
         return IdInsert;
+    }
+
+    public int NumUltimaReceta()
+    {
+        //select count(*) as total from mitabla
+        SQLiteDatabase db = getWritableDatabase();
+        //Cursor c=db.rawQuery("select count(*) as total from "+TABLE_RECETAS, null);
+
+        Cursor c=db.rawQuery("SELECT "+COL_IdReceta+" FROM "+TABLE_RECETAS+" ORDER BY "+COL_IdReceta+" DESC LIMIT 1", null);
+        if(c.moveToFirst())
+        {
+            return c.getInt(0);
+        }
+        else
+            return -1;
+    }
+
+    public int NumUltimoIngrediente()
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c=db.rawQuery("SELECT "+COL_IdIngrediente+" FROM "+TABLE_INGREDIENTES+" ORDER BY "+COL_IdIngrediente+" DESC LIMIT 1", null);
+        if(c.moveToFirst())
+        {
+            return c.getInt(0);
+        }
+        else
+            return -1;
+    }
+    public int NumUltimaInstruccion()
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c=db.rawQuery("SELECT "+COL_IdInstruccion+" FROM "+TABLE_INSTRUCCIONES+" ORDER BY "+COL_IdInstruccion+" DESC LIMIT 1", null);
+        if(c.moveToFirst())
+        {
+            return c.getInt(0);
+        }
+        else
+            return -1;
     }
 
     public int InsertarIngrediente(int IdReceta, int IdIngrediente, String NombreIngrediente, String Medicion, double Cantidad)

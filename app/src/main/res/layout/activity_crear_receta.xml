@@ -207,7 +207,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="Ver ingredientes"
+                android:text="- Ingrediente"
                 android:id="@+id/CRVerIngredientes"/>
 
         </RelativeLayout>
@@ -273,7 +273,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="Ver instrucciones"
+            android:text="- Instrucción"
             android:id="@+id/CRVerInstrucciones"/>
 
     </RelativeLayout>

@@ -1,5 +1,7 @@
 package com.example.mache.recetario2;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -8,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 
@@ -37,11 +40,16 @@ import android.widget.Toast;
 
 import android.view.ViewGroup.LayoutParams;
 
+import com.example.mache.recetario2.database.AppDatabaseHelper;
+
 public class CrearRecetaActivity extends AppCompatActivity {
 
     private Spinner spinner1;
 
     private Spinner spinnerIngrediente;
+    private int IdRecetaAInsertar, IdIngredienteAInsertar, IdInstruccionAInsertar;
+    private int NumUltimaReceta, NumUltimoIngrediente, NumUltimaInstruccion;
+    private String CadenaIngredientes ="";
 
     private Button btnSubmit;
 
@@ -76,6 +84,27 @@ public class CrearRecetaActivity extends AppCompatActivity {
         //addListenerOnSpinnerItemSelection();
         //addListenerOnButton();
 
+        AppDatabaseHelper dbHelper = new AppDatabaseHelper(CrearRecetaActivity.this);
+        NumUltimaReceta = dbHelper.NumUltimaReceta();
+        NumUltimoIngrediente = dbHelper.NumUltimoIngrediente();
+        NumUltimaInstruccion = dbHelper.NumUltimaInstruccion();
+
+        IdRecetaAInsertar = ObtenerIdRecetaAInsertar(NumUltimaReceta);
+        IdIngredienteAInsertar = ObtenerIdIngredienteAInsertar(NumUltimoIngrediente);
+        IdInstruccionAInsertar = ObtenerIdInstruccionAInsertar(NumUltimaInstruccion);
+
+
+        //System.out.println("Prox id: "+Integer.toString(IdRecetaAInsertar)+"--"+Integer.toString(IdIngredienteAInsertar)+"--"+Integer.toString(IdInstruccionAInsertar));
+        //Si el numero es par
+        //if(NumUltimaReceta % 2 == 0)
+
+        //System.out.println("Wazaaa");
+
+
+
+
+
+
         //iniciar pop up agregarIngrediente
         spinnerIngrediente = (Spinner) findViewById(R.id.CRCategoriaIngredientes);
 
@@ -86,25 +115,18 @@ public class CrearRecetaActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-                //Hace algo
+                //se obtienen los valores de los input y se guardan en los arreglos de string/double
+
                 CantidadIngrediente = Double.parseDouble(ValorCantidadIngrediente.getText().toString());
                 G_Cantidad.add(CantidadIngrediente);
-                System.out.println(G_Cantidad);
-
+                G_NombreIngrediente.add(ValorNombreIngrediente.getText().toString());
+                G_Medicion.add(String.valueOf(spinnerIngrediente.getSelectedItem()));
 
                 Toast.makeText(CrearRecetaActivity.this,
-                        "HOLI, agrego ingrediente tipo: " + String.valueOf(spinnerIngrediente.getSelectedItem() +
-                                ValorNombreIngrediente.getText().toString() +
-                                ValorCantidadIngrediente.getText().toString()),
+                        "Ingrediente agregado a la receta",
                         Toast.LENGTH_SHORT).show();
 
-
-
-
-
             }});
-
-
 
 
         //iniciar pop up AgregarInstruccion
@@ -113,37 +135,12 @@ public class CrearRecetaActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                LayoutInflater layoutInflater
-                        = (LayoutInflater)getBaseContext()
-                        .getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView = layoutInflater.inflate(R.layout.agregar_instruccion_pop_up, null);
-                final PopupWindow popupWindow = new PopupWindow(
-                        popupView,
-                        LayoutParams.WRAP_CONTENT,
-                        LayoutParams.WRAP_CONTENT);
-
-                Button btnDismiss = (Button)popupView.findViewById(R.id.cancelAgregarInstruccion);
-                btnDismiss.setOnClickListener(new Button.OnClickListener(){
-
-                    @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
-                        popupWindow.dismiss();
-                    }});
-
-                Button OKAgregarInstruccion = (Button)popupView.findViewById(R.id.OKAgregarInstruccion);
-                OKAgregarInstruccion.setOnClickListener(new Button.OnClickListener(){
-
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(CrearRecetaActivity.this,
-                                "HOLI, agrego instruccion",
-                                Toast.LENGTH_SHORT).show();
-
-                    }});
-
-                //popupWindow.showAsDropDown(btnOpenPopup, 50, -50);
-                popupWindow.showAtLocation(btnAgregarInstruccion, Gravity.CENTER, 0, 0);
+                //se obtienen los valores de los input y se guardan en los arreglos de string
+                G_TextoInstruccion.add(ValorTextoInstruccion.getText().toString());
+                //El numero de orden de la isntruccion se obtiene desde la posicion del arralist de instrucciones
+                Toast.makeText(CrearRecetaActivity.this,
+                        "Instrucción agregada a la receta",
+                        Toast.LENGTH_SHORT).show();
 
             }});
 
@@ -153,26 +150,8 @@ public class CrearRecetaActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                LayoutInflater layoutInflater
-                        = (LayoutInflater)getBaseContext()
-                        .getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView = layoutInflater.inflate(R.layout.ver_ingredientes_pop_up, null);
-                final PopupWindow popupWindow = new PopupWindow(
-                        popupView,
-                        LayoutParams.WRAP_CONTENT,
-                        LayoutParams.WRAP_CONTENT);
 
-                Button btnDismiss = (Button)popupView.findViewById(R.id.cancelVerIngredientes);
-                btnDismiss.setOnClickListener(new Button.OnClickListener(){
-
-                    @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
-                        popupWindow.dismiss();
-                    }});
-
-                //popupWindow.showAsDropDown(btnOpenPopup, 50, -50);
-                popupWindow.showAtLocation(btnVerIngredientes, Gravity.CENTER, 0, 0);
+                MostrarIngredientes();
 
             }});
 
@@ -182,26 +161,8 @@ public class CrearRecetaActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                LayoutInflater layoutInflater
-                        = (LayoutInflater)getBaseContext()
-                        .getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView = layoutInflater.inflate(R.layout.ver_instrucciones_pop_up, null);
-                final PopupWindow popupWindow = new PopupWindow(
-                        popupView,
-                        LayoutParams.WRAP_CONTENT,
-                        LayoutParams.WRAP_CONTENT);
 
-                Button btnDismiss = (Button)popupView.findViewById(R.id.cancelVerInstrucciones);
-                btnDismiss.setOnClickListener(new Button.OnClickListener(){
-
-                    @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
-                        popupWindow.dismiss();
-                    }});
-
-                //popupWindow.showAsDropDown(btnOpenPopup, 50, -50);
-                popupWindow.showAtLocation(btnVerInstrucciones, Gravity.CENTER, 0, 0);
+                MostrarInstrucciones();
 
             }});
 
@@ -232,9 +193,184 @@ public class CrearRecetaActivity extends AppCompatActivity {
     }
 
 
+    public void MostrarIngredientes()
+    {
+        CadenaIngredientes ="";
+
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(CrearRecetaActivity.this);
+        //builderSingle.setIcon(R.drawable.ic_launcher);
+        builderSingle.setTitle("Eliminar ingredientes:");
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                CrearRecetaActivity.this,
+                android.R.layout.select_dialog_singlechoice);
 
 
+        for(int x=0;x<G_NombreIngrediente.size();x++) {
+            CadenaIngredientes = G_Cantidad.get(x) +" "+ G_Medicion.get(x) +" "+ G_NombreIngrediente.get(x);
+            arrayAdapter.add(CadenaIngredientes);
+        }
 
+        builderSingle.setNegativeButton(
+                "Volver",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        builderSingle.setAdapter(
+                arrayAdapter,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String Cadena = arrayAdapter.getItem(which);
+                        AlertDialog.Builder builderInner = new AlertDialog.Builder(
+                                CrearRecetaActivity.this);
+                        //builderInner.setMessage(Cadena);
+                        String [] Nombre = Cadena.split("\\ ");
+                        builderInner.setMessage(Nombre[2]);
+
+                        G_NombreIngrediente.remove(Nombre[2]);
+
+                        builderInner.setTitle("Se ha eliminado:");
+                        builderInner.setPositiveButton(
+                                "Ok",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(
+                                            DialogInterface dialog,
+                                            int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        builderInner.show();
+                    }
+                });
+        builderSingle.show();
+    }
+
+    public void MostrarInstrucciones()
+    {
+
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(CrearRecetaActivity.this);
+        //builderSingle.setIcon(R.drawable.ic_launcher);
+        builderSingle.setTitle("Eliminar instrucciones:");
+
+        final ArrayAdapter<String> arrayAdapterInstrucciones = new ArrayAdapter<String>(
+                CrearRecetaActivity.this,
+                android.R.layout.select_dialog_singlechoice);
+
+
+        for(int x=0;x<G_TextoInstruccion.size();x++) {
+            //CadenaIngredientes = G_Cantidad.get(x) +" "+ G_Medicion.get(x) +" "+ G_NombreIngrediente.get(x);
+            arrayAdapterInstrucciones.add(G_TextoInstruccion.get(x));
+        }
+
+        builderSingle.setNegativeButton(
+                "Volver",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        builderSingle.setAdapter(
+                arrayAdapterInstrucciones,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String Cadena = arrayAdapterInstrucciones.getItem(which);
+
+                        AlertDialog.Builder builderInner = new AlertDialog.Builder(
+                                CrearRecetaActivity.this);
+                        //builderInner.setMessage(Cadena);
+                        //String [] Nombre = Cadena.split("\\ ");
+                        builderInner.setMessage(Cadena);
+
+                        G_TextoInstruccion.remove(which);
+
+                        builderInner.setTitle("Se ha eliminado:");
+                        builderInner.setPositiveButton(
+                                "Ok",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(
+                                            DialogInterface dialog,
+                                            int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        builderInner.show();
+                    }
+                });
+        builderSingle.show();
+    }
+
+    public int ObtenerIdRecetaAInsertar(int NumUltimaReceta)
+    {
+
+        if(NumUltimaReceta == -1)
+        {
+            //No hay recetas guardadas
+            return 1;
+        }
+        else if(NumUltimaReceta%2 == 0)
+        {
+            //El Id es par, por lo que pertenece a receta online
+            return NumUltimaReceta + 1;
+        }
+        else
+        {
+            //El ultimo id es impar, por lo que pertenece a una receta creada en el dispositivo
+            return NumUltimaReceta + 2;
+        }
+
+    }
+
+    public int ObtenerIdIngredienteAInsertar(int NumUltimoIngrediente)
+    {
+
+        if(NumUltimoIngrediente == -1)
+        {
+            //No hay recetas guardadas
+            return 1;
+        }
+        else if(NumUltimoIngrediente%2 == 0)
+        {
+            //El Id es par, por lo que pertenece a receta online
+            return NumUltimoIngrediente + 1;
+        }
+        else
+        {
+            //El ultimo id es impar, por lo que pertenece a una receta creada en el dispositivo
+            return NumUltimoIngrediente + 2;
+        }
+
+    }
+
+    public int ObtenerIdInstruccionAInsertar(int NumUltimaInstruccion)
+    {
+
+        if(NumUltimaInstruccion == -1)
+        {
+            //No hay recetas guardadas
+            return 1;
+        }
+        else if(NumUltimaInstruccion%2 == 0)
+        {
+            //El Id es par, por lo que pertenece a receta online
+            return NumUltimaInstruccion + 1;
+        }
+        else
+        {
+            //El ultimo id es impar, por lo que pertenece a una receta creada en el dispositivo
+            return NumUltimaInstruccion + 2;
+        }
+
+    }
 
 
 

@@ -283,6 +283,10 @@ public class MostrarRecetaActivity extends AppCompatActivity {
                 System.out.println("BDD yep");
                 System.out.print(G_Path);
 
+                Toast.makeText(MostrarRecetaActivity.this,
+                        "Receta guardada",
+                        Toast.LENGTH_SHORT).show();
+
             }
         });
 
