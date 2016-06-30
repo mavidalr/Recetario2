@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
 
@@ -81,7 +83,28 @@ public class CustomListAdapterDevice extends BaseAdapter {
         else
         {
 
-            //Holi
+            Uri Path = Uri.fromFile(new File(m.getFotoReceta()));
+
+            try {
+                // hide video preview
+                //videoPreview.setVisibility(View.GONE);
+
+                thumbNail.setVisibility(View.VISIBLE);
+
+                // bimatp factory
+                BitmapFactory.Options options = new BitmapFactory.Options();
+
+                // downsizing image as it throws OutOfMemory Exception for larger
+                // images
+                options.inSampleSize = 8;
+
+                //final Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath(), options);
+                final Bitmap bitmap = BitmapFactory.decodeFile(Path.getPath(),options);
+
+                thumbNail.setImageBitmap(bitmap);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
 
 
