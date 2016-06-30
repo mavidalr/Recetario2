@@ -249,7 +249,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             values.put("AnioMenu", AnioMenu);
             values.put("TipoMenu", TipoMenu);
 
-            IdInsert = (int) db.insert(TABLE_RECETAS, null, values);
+            IdInsert = (int) db.insert(TABLE_MENUS, null, values);
         }
         db.close();
         return IdInsert;
@@ -269,10 +269,39 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             values.put("TipoCesta", TipoCesta);
             values.put("TextoCesta", TextoCesta);
 
-            IdInsert = (int) db.insert(TABLE_RECETAS, null, values);
+            IdInsert = (int) db.insert(TABLE_CESTA, null, values);
         }
         db.close();
         return IdInsert;
+    }
+
+    public int IdCestaAInsertar()
+    {
+        //select count(*) as total from mitabla
+        SQLiteDatabase db = getWritableDatabase();
+        //Cursor c=db.rawQuery("select count(*) as total from "+TABLE_RECETAS, null);
+
+        Cursor c=db.rawQuery("SELECT "+COL_IdElemento+" FROM "+TABLE_CESTA+" ORDER BY "+COL_IdElemento+" DESC LIMIT 1", null);
+        if(c.moveToFirst())
+        {
+            return c.getInt(0)+1;
+        }
+        else
+            return 1;
+    }
+    public int IdMenuAInsertar()
+    {
+        //select count(*) as total from mitabla
+        SQLiteDatabase db = getWritableDatabase();
+        //Cursor c=db.rawQuery("select count(*) as total from "+TABLE_RECETAS, null);
+
+        Cursor c=db.rawQuery("SELECT "+COL_IdMenu+" FROM "+TABLE_MENUS+" ORDER BY "+COL_IdMenu+" DESC LIMIT 1", null);
+        if(c.moveToFirst())
+        {
+            return c.getInt(0)+1;
+        }
+        else
+            return 1;
     }
 
 
