@@ -291,11 +291,19 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:id="@+id/btnAgregarImagen"
+        android:id="@+id/btnCapturePicture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/BarraFinal"
         android:text="Agregar imagen"/>
+
+
+    <ImageView
+        android:id="@+id/imgPreview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_below="@+id/btnCapturePicture"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -303,7 +311,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Crear receta"
-        android:layout_below="@+id/btnAgregarImagen"
+        android:layout_below="@+id/imgPreview"
         android:enabled="true" />
 
 </RelativeLayout>

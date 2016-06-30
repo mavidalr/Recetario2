@@ -110,12 +110,12 @@ public class MainActivity extends AppCompatActivity {
                                 CrearRecetaActivity.class);
                         startActivity(intent);
                         break;
-                    /*case OPCION_FICHA_PERSONAL:
-                        intent = new Intent(HomeActivity.this,
-                                FichaPersonalActivity.class);
+                    case OPCION_MENU_PERSONAL:
+                        intent = new Intent(MainActivity.this,
+                                CamaraActivity.class);
                         startActivity(intent);
                         break;
-                    case OPCION_RESUMEN_ACADEMICO:
+                    /*case OPCION_RESUMEN_ACADEMICO:
                         intent = new Intent(HomeActivity.this,
                                 ResumenAcademicoActivity.class);
                         startActivity(intent);

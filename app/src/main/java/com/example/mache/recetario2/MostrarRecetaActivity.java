@@ -281,7 +281,9 @@ public class MostrarRecetaActivity extends AppCompatActivity {
 
                 dbHelper.InsertarReceta(G_IdReceta, G_NombreReceta, G_Path, G_NumPersonas, G_TiempoPreparacion, G_Categoria, G_Dificulad);
                 System.out.println("BDD yep");
-                System.out.print(G_Path);
+                System.out.println("1["+imageFullPath+"]");
+                System.out.println(imageFullPath);
+                System.out.println(imageFullPath);
 
                 Toast.makeText(MostrarRecetaActivity.this,
                         "Receta guardada",

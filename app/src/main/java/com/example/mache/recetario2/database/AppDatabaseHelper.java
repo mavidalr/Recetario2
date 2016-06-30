@@ -145,6 +145,22 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             return -1;
     }
 
+    public String PathImagenSDCard(String IdReceta)
+    {
+        //select count(*) as total from mitabla
+        SQLiteDatabase db = getWritableDatabase();
+        //Cursor c=db.rawQuery("select count(*) as total from "+TABLE_RECETAS, null);
+
+        //Cursor c=db.rawQuery("SELECT "+COL_FotoReceta+" FROM "+TABLE_RECETAS+" where "+COL_IdReceta+" = " + IdReceta, null);
+        Cursor c=db.rawQuery("SELECT "+COL_FotoReceta+" FROM "+TABLE_RECETAS+" where "+COL_IdReceta+" = 3", null);
+        if(c.moveToFirst())
+        {
+            return c.getString(0);
+        }
+        else
+            return "No se encontro la imagen";
+    }
+
     public int InsertarIngrediente(int IdReceta, int IdIngrediente, String NombreIngrediente, String Medicion, double Cantidad)
     {
         int IdInsert = 0;
@@ -183,6 +199,8 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return IdInsert;
     }
+
+
     /*
     private void crearDatosIniciales(SQLiteDatabase database) {
 

@@ -7,6 +7,7 @@
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -30,7 +31,8 @@
         <activity android:name=".BuscarRecetasDeviceActivity" />
         <activity android:name=".MostrarRecetaDevice" />
         <activity android:name=".MostrarRecetaDeviceActivity" />
-        <activity android:name=".CrearRecetaActivity"></activity>
+        <activity android:name=".CrearRecetaActivity" />
+        <activity android:name=".CamaraActivity"></activity>
     </application>
 
 </manifest>

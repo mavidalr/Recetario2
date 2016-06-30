@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.net.http.SslCertificate;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -167,10 +168,47 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
         }
         */
 
+        //Si IdReceta es par, es img guardada en internal so¿torage Si es impar, es del sdcard
+        if(IdReceta%2==0)
+        {
+
+
         //Cargar img de fondo
         ImageView targetImage = (ImageView)findViewById(R.id.DImagenFondo);
+        System.out.println(loadImageBitmap(getApplicationContext(), ID_RECETA + ".png"));
         targetImage.setImageBitmap(loadImageBitmap(getApplicationContext(), ID_RECETA + ".png"));
+        }
+        else
+        {
+            ImageView imgPreview = (ImageView)findViewById(R.id.DImagenFondo);
+            AppDatabaseHelper dbHelper = new AppDatabaseHelper(MostrarRecetaDeviceActivity.this);
+            String PathImagen = dbHelper.PathImagenSDCard(ID_RECETA);
+            System.out.println(PathImagen);
 
+            Uri Path = Uri.fromFile(new File(PathImagen));
+
+            try {
+                // hide video preview
+                //videoPreview.setVisibility(View.GONE);
+
+                imgPreview.setVisibility(View.VISIBLE);
+
+                // bimatp factory
+                BitmapFactory.Options options = new BitmapFactory.Options();
+
+                // downsizing image as it throws OutOfMemory Exception for larger
+                // images
+                options.inSampleSize = 8;
+
+                //final Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath(), options);
+                final Bitmap bitmap = BitmapFactory.decodeFile(Path.getPath(),options);
+
+                imgPreview.setImageBitmap(bitmap);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+
+        }
         TextView PrimerCard = (TextView) findViewById(R.id.DcardUno);
         PrimerCard.setText("Categoría: "+tokens[1] + "\n\n" +"Tiempo de preparación: "+ Tiempo + " min.");
 

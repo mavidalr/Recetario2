@@ -73,8 +73,17 @@ public class CustomListAdapterDevice extends BaseAdapter {
         // getting Receta data for the row
         Receta m = RecetaItems.get(position);
 
-        Bitmap myBitmap = BitmapFactory.decodeFile(m.getFotoReceta());
-        thumbNail.setImageBitmap(myBitmap);
+        String IDRECETA = String.valueOf(m.getIdReceta());
+        if(Integer.parseInt(IDRECETA)%2==0)
+        {Bitmap myBitmap = BitmapFactory.decodeFile(m.getFotoReceta());
+            thumbNail.setImageBitmap(myBitmap);
+        }
+        else
+        {
+
+            //Holi
+        }
+
 
         // thumbnail image
         //thumbNail.setImageUrl(m.getFotoReceta(), imageLoader);
@@ -88,7 +97,7 @@ public class CustomListAdapterDevice extends BaseAdapter {
         // genre
         TiempoPreparacion.setText("Praparación: " + String.valueOf(m.getTiempoPraparacion()) + " min.");
         IdReceta.setText(String.valueOf(m.getIdReceta()));
-        String IDRECETA = String.valueOf(m.getIdReceta());
+
 
         URL.setText(String.valueOf(m.getURL()));
 
