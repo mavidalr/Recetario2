@@ -114,8 +114,16 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior">
             android:orientation="vertical"
             tools:context=".MostrarRecetaActivity"
             android:textSize="18sp">
-        </LinearLayout>
 
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:id="@+id/btnMenuPersonal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Agregar al menú personal"
+                android:enabled="true" />
+
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView

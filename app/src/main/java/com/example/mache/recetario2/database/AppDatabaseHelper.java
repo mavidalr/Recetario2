@@ -14,9 +14,6 @@ import java.io.FileOutputStream;
 
 public class AppDatabaseHelper extends SQLiteOpenHelper {
 
-    //Para guardar las imágenes iniciales
-
-
     private static final String DATABASE_NAME = "recetario.db";
     private static final int DB_VERSION = 1;
     //private static final String CREATE_TABLE_RAMOS ="CREATE TABLE " + "ramos (codigo TEXT, nombre TEXT,descripcion TEXT, profesor TEXT)";
@@ -47,15 +44,38 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             "   OrdenInstruccion INTEGER," +
             "   TextoInstruccion TEXT" +
             ");";
+
+    private static final String CREATE_TABLE_MENUS ="" +
+            "CREATE TABLE Menus(" +
+            "   IdMenu INTEGER PRIMARY KEY," +
+            "   IdReceta INTEGER," +
+            "   DiaMenu INTEGER," +
+            "   MesMenu INTEGER," +
+            "   AnioMenu INTEGER," +
+            "   TipoMenu TEXT" +
+            ");";
+
+    private static final String CREATE_TABLE_CESTA ="" +
+            "CREATE TABLE Cesta(" +
+            "   IdElemento INTEGER PRIMARY KEY," +
+            "   NombreIngredienteCesta TEXT," +
+            "   MedicionCesta TEXT," +
+            "   CantidadCesta REAL," +
+            "   TipoCesta INTEGER," +
+            "   TextoCesta TEXT" +
+            ");";
+
     public static final String TABLE_RECETAS= "Recetas";
     public static final String TABLE_INSTRUCCIONES= "Instrucciones";
     public static final String TABLE_INGREDIENTES= "Ingredientes";
+    public static final String TABLE_MENUS= "Menus";
+    public static final String TABLE_CESTA= "Cesta";
+
 
 
     public static final String COL_IdReceta = "IdReceta";
     public static final String COL_IdInstruccion = "IdInstruccion";
     public static final String COL_IdIngrediente = "IdIngrediente";
-
     public static final String COL_FotoReceta = "FotoReceta";
     public static final String COL_NumPersonas = "NumPersonas";
     public static final String COL_TiempoPreparacion = "TiempoPreparacion";
@@ -71,6 +91,19 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_Medicion = "Medicion";
     public static final String COL_Cantidad = "Cantidad";
 
+    public static final String COL_IdMenu = "IdMenu";
+    public static final String COL_DiaMenu = "DiaMenu";
+    public static final String COL_MesMenu = "MesMenu";
+    public static final String COL_AnioMenu = "AnioMenu";
+    public static final String COL_TipoMenu = "TipoMenu";
+
+    public static final String COL_IdElemento = "IdElemento";
+    public static final String COL_NombreIngredienteCesta = "NombreIngredienteCesta";
+    public static final String COL_MedicionCesta = "MedicionCesta";
+    public static final String COL_CantidadCesta = "CantidadCesta";
+    public static final String COL_TipoCesta = "TipoCesta";
+    public static final String COL_TextoCesta = "TextoCesta";
+
 
     public AppDatabaseHelper(Context context) {
 
@@ -83,6 +116,8 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         database.execSQL(CREATE_TABLE_RECETAS);
         database.execSQL(CREATE_TABLE_INSTRUCCIONES);
         database.execSQL(CREATE_TABLE_INGREDIENTES);
+        database.execSQL(CREATE_TABLE_MENUS);
+        database.execSQL(CREATE_TABLE_CESTA);
         //crearDatosIniciales(database);
     }
 
@@ -195,6 +230,46 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             values.put("TextoInstruccion", TextoInstruccion);
 
             IdInsert = (int) db.insert(TABLE_INSTRUCCIONES, null, values);
+        }
+        db.close();
+        return IdInsert;
+    }
+
+    public int InsertarMenu(int IdMenu, int IdReceta, int DiaMenu, int MesMenu, int AnioMenu, String TipoMenu){
+        int IdInsert = 0;
+        SQLiteDatabase db = getWritableDatabase();
+        if(db!=null){
+            ContentValues values = new ContentValues();
+            //values.put("nombre", nombre);
+
+            values.put("IdMenu", IdMenu);
+            values.put("IdReceta", IdReceta);
+            values.put("DiaMenu", DiaMenu);
+            values.put("MesMenu", MesMenu);
+            values.put("AnioMenu", AnioMenu);
+            values.put("TipoMenu", TipoMenu);
+
+            IdInsert = (int) db.insert(TABLE_RECETAS, null, values);
+        }
+        db.close();
+        return IdInsert;
+    }
+
+    public int InsertarCesta(int IdElemento, String NombreIngredienteCesta, String MedicionCesta, Double CantidadCesta, int TipoCesta, String TextoCesta){
+        int IdInsert = 0;
+        SQLiteDatabase db = getWritableDatabase();
+        if(db!=null){
+            ContentValues values = new ContentValues();
+            //values.put("nombre", nombre);
+
+            values.put("IdElemento", IdElemento);
+            values.put("NombreIngredienteCesta", NombreIngredienteCesta);
+            values.put("MedicionCesta", MedicionCesta);
+            values.put("CantidadCesta", CantidadCesta);
+            values.put("TipoCesta", TipoCesta);
+            values.put("TextoCesta", TextoCesta);
+
+            IdInsert = (int) db.insert(TABLE_RECETAS, null, values);
         }
         db.close();
         return IdInsert;

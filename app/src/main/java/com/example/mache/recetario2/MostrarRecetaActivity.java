@@ -1,6 +1,9 @@
 package com.example.mache.recetario2;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -19,6 +22,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,6 +52,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.Request.Method;
@@ -58,6 +64,7 @@ import android.widget.CheckBox;
 
 
 import java.net.URLConnection;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -84,6 +91,15 @@ import com.example.mache.recetario2.database.AppDatabaseHelper;
 
 
 public class MostrarRecetaActivity extends AppCompatActivity {
+
+    //Para establecer la fecha del menu personal
+    Button btnDatePicker, btnTimePicker;
+    EditText txtDate, txtTime;
+    private int mYear, mMonth, mDay, mHour, mMinute;
+    private int TipoCesta=1;
+    private String TextoCesta="Default";
+    private String TipoMenu="Default";
+
 
     //--Para leer Ingredientes
     // json array response url
@@ -124,6 +140,8 @@ public class MostrarRecetaActivity extends AppCompatActivity {
     ArrayList<String> G_NombreIngrediente = new ArrayList<String>();
     ArrayList<String> G_Medicion = new ArrayList<String>();
     ArrayList<Double> G_Cantidad = new ArrayList<Double>();
+
+    ArrayList<Integer> G_IdIngredienteCesta = new ArrayList<Integer>();
 
     /*private int G_IdInstruccion[];
     private int G_OrdenInstruccion[];
@@ -244,6 +262,7 @@ public class MostrarRecetaActivity extends AppCompatActivity {
                 // Click action
                 //Intent intent = new Intent(MainActivity.this, NewMessageActivity.class);
                 //startActivity(intent);
+
                 System.out.println("Empezar a guadar en la bdd");
 
                 new DownloadImage().execute(G_FotoReceta);
@@ -292,10 +311,70 @@ public class MostrarRecetaActivity extends AppCompatActivity {
             }
         });
 
-    }
-    //-- Para leer ingredientes
+        final Button btnAgregarMenuPersonal = (Button)findViewById(R.id.btnMenuPersonal);
+        //btnDatePicker=(Button)findViewById(R.id.btn_date);
+        //btnTimePicker=(Button)findViewById(R.id.btn_time);
+        //txtDate=(EditText)findViewById(R.id.in_date);
+        //txtTime=(EditText)findViewById(R.id.in_time);
 
-    //funcion para guardar url imagen
+
+        btnAgregarMenuPersonal.setOnClickListener(new Button.OnClickListener(){
+
+
+            @Override
+            public void onClick(View arg0) {
+
+                //obtener los ingredientes
+
+// Get Current Date
+                final Calendar c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MostrarRecetaActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+
+                                //txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                System.out.println(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
+
+                                //Recuperar IDingredientes que se seleccionan del checkbox
+                                //System.out.println(G_IdIngredienteCesta);
+
+
+                                for(int y=0;y<G_IdIngredienteCesta.size();y++)
+                                {
+                                    int posicionEnG_IdIngrediente = G_IdIngrediente.indexOf(G_IdIngredienteCesta.get(y));
+                                    //System.out.println("La pos es "+posicionEnG_IdIngrediente+" del IdIngrediente select "+G_IdIngredienteCesta.get(y));
+                                    System.out.println(G_NombreIngrediente.get(posicionEnG_IdIngrediente)+"-"+G_Medicion.get(posicionEnG_IdIngrediente)+"-"+G_Cantidad.get(posicionEnG_IdIngrediente));
+
+                                }
+
+                                //Recuperar Valores de fecha, IdReceta y TipoMenu="Default"System.out.println(G_IdReceta);
+                                System.out.println(dayOfMonth);
+                                System.out.println(monthOfYear);
+                                System.out.println(year);
+                                System.out.println(TipoCesta);
+
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+
+
+
+
+            }});
+
+    }
+    //Para la fecha ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    //Fin para la fecha------------------------------------------------------------------------------------------
 
 
     /**
@@ -400,11 +479,26 @@ public class MostrarRecetaActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(req);
     }
 
+    //Funcion que obtiene los valores seleccionados del checkbox
     View.OnClickListener getOnClickDoSomething(final Button button) {
         return new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("*************Id******" + button.getId());
                 System.out.println("Text***" + button.getText().toString());
+                //Almacenar IdIngrediente a la cesta
+
+                if(G_IdIngredienteCesta.contains(button.getId()))
+                {
+                    G_IdIngredienteCesta.remove(G_IdIngredienteCesta.indexOf(button.getId()));
+
+
+                }
+                else
+                {
+                    G_IdIngredienteCesta.add(button.getId());
+                }
+
+
             }
         };
     }
