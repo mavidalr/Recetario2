@@ -110,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
                                 CrearRecetaActivity.class);
                         startActivity(intent);
                         break;
-                    case OPCION_MENU_PERSONAL:
+                    case OPCION_CESTA_DE_COMPRAS:
                         intent = new Intent(MainActivity.this,
-                                CamaraActivity.class);
+                                CestaComprasActivity.class);
                         startActivity(intent);
                         break;
                     /*case OPCION_RESUMEN_ACADEMICO:

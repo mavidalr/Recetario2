@@ -348,12 +348,12 @@ public class MostrarRecetaActivity extends AppCompatActivity {
 
                                 AppDatabaseHelper dbHelper = new AppDatabaseHelper(MostrarRecetaActivity.this);
                                 int IdMenuAInsertar = dbHelper.IdMenuAInsertar();
-                                int IdCestaAInsertar = dbHelper.IdMenuAInsertar();
+                                int IdCestaAInsertar = dbHelper.IdCestaAInsertar();
 
-                                for(int x=0;x<G_IdIngrediente.size();x++) {
+                                /*for(int x=0;x<G_IdIngrediente.size();x++) {
                                     System.out.println("Hay ingredientes");
                                     dbHelper.InsertarIngrediente(G_IdReceta, G_IdIngrediente.get(x),G_NombreIngrediente.get(x),G_Medicion.get(x),G_Cantidad.get(x));
-                                }
+                                }*/
 
 
                                 for(int y=0;y<G_IdIngredienteCesta.size();y++)
@@ -361,7 +361,7 @@ public class MostrarRecetaActivity extends AppCompatActivity {
                                     int posicionEnG_IdIngrediente = G_IdIngrediente.indexOf(G_IdIngredienteCesta.get(y));
                                     //System.out.println("La pos es "+posicionEnG_IdIngrediente+" del IdIngrediente select "+G_IdIngredienteCesta.get(y));
                                     //System.out.println(G_NombreIngrediente.get(posicionEnG_IdIngrediente)+"-"+G_Medicion.get(posicionEnG_IdIngrediente)+"-"+G_Cantidad.get(posicionEnG_IdIngrediente));
-                                    dbHelper.InsertarCesta(IdCestaAInsertar,G_NombreIngrediente.get(posicionEnG_IdIngrediente),G_Medicion.get(posicionEnG_IdIngrediente),G_Cantidad.get(posicionEnG_IdIngrediente),TipoCesta,TextoCesta);
+                                    dbHelper.InsertarCesta(IdCestaAInsertar+y,G_NombreIngrediente.get(posicionEnG_IdIngrediente),G_Medicion.get(posicionEnG_IdIngrediente),G_Cantidad.get(posicionEnG_IdIngrediente),TipoCesta,TextoCesta);
 
                                 }
 
@@ -372,14 +372,19 @@ public class MostrarRecetaActivity extends AppCompatActivity {
                                 System.out.println(TipoCesta);
                                 dbHelper.InsertarMenu(IdMenuAInsertar,G_IdReceta,dayOfMonth,monthOfYear,year,TipoMenu);
 
+                                Toast.makeText(MostrarRecetaActivity.this,
+                                        "Receta agregada al menú personal y cesta de compras",
+                                        Toast.LENGTH_SHORT).show();
+
 
                             }
                         }, mYear, mMonth, mDay);
+                Toast.makeText(MostrarRecetaActivity.this,
+                        "Receta agregada al menú personal y a la cesta de compras",
+                        Toast.LENGTH_SHORT).show();
                 datePickerDialog.show();
 
-                Toast.makeText(MostrarRecetaActivity.this,
-                        "Receta agregada al menú personal y cesta de compras",
-                        Toast.LENGTH_SHORT).show();
+
 
 
 
