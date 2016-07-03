@@ -7,17 +7,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 
@@ -55,20 +50,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        //--para el slide
-        //setContentView(R.layout.recyclerview);
         initViews();
         populatRecyclerView();
-        //--
-
-
-        //String nombreUsuario = getIntent().getStringExtra(MainActivity.KEY_USUARIO);
-
-        //TextView textViewNombreUsuario =
-        //        (TextView) findViewById(R.id.textViewBienvenida);
-
-        //textViewNombreUsuario.setText("Hola " + nombreUsuario);
-
         setListViewOpciones();
     }
 
@@ -127,19 +110,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //--para el slide
-
-    // Initialize the view
     private void initViews() {
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Set Back Icon on Activity
 
-        //navigateFrom = getIntent().getStringExtra("navigateFrom");//Get Intent Value in String
         navigateFrom = "horizontal";
         recyclerView = (RecyclerView)
                 findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        //Set RecyclerView type according to intent value
         if (navigateFrom.equals("horizontal")) {
             getSupportActionBar().setTitle("Recetario || Menú principal");
             recyclerView
@@ -152,16 +129,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    // populate the list view by adding data to arraylist
     private void populatRecyclerView() {
         ArrayList<Data_Model> arrayList = new ArrayList<>();
         for (int i = 0; i < TITLES.length; i++) {
             arrayList.add(new Data_Model(TITLES[i],IMAGES[i], CATEGORIAS[i]));
         }
         RecyclerView_Adapter  adapter = new RecyclerView_Adapter(MainActivity.this, arrayList);
-        recyclerView.setAdapter(adapter);// set adapter on recyclerview
-        adapter.notifyDataSetChanged();// Notify the adapter
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
     }
 
