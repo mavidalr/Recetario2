@@ -29,10 +29,12 @@
         <activity android:name=".BuscarRecetasActivity" />
         <activity android:name=".MostrarRecetaActivity" />
         <activity android:name=".BuscarRecetasDeviceActivity" />
-        <activity android:name=".MostrarRecetaDevice" />
         <activity android:name=".MostrarRecetaDeviceActivity" />
+        <activity android:name=".BuscarRecetasMenuPersonalActivity" />
         <activity android:name=".CrearRecetaActivity" />
-        <activity android:name=".CestaComprasActivity"></activity>
+        <activity android:name=".CestaComprasActivity" />
+        <activity android:name=".MostrarRecetaMenuPersonal" />
+        <activity android:name=".MostrarRecetaMenuPersonalActivity"></activity>
     </application>
 
 </manifest>

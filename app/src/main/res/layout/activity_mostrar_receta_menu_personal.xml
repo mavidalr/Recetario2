@@ -2,20 +2,20 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.mache.recetario2.MostrarRecetaDeviceActivity"
-    android:id="@+id/Dmain_content"
+    tools:context="com.example.mache.recetario2.MostrarRecetaMenuPersonalActivity"
+    android:id="@+id/MPmain_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/DMyAppbar"
+        android:id="@+id/MPMyAppbar"
         android:layout_width="match_parent"
         android:layout_height="256dp"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/Dcollapse_toolbar"
+            android:id="@+id/MPcollapse_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -27,7 +27,7 @@
                 android:layout_height="match_parent" >
 
                 <ImageView
-                    android:id="@+id/DImagenFondo"
+                    android:id="@+id/MPImagenFondo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
@@ -55,7 +55,7 @@
 
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/DMyToolbar"
+                android:id="@+id/MPMyToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="parallax" />
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/DcardUno"
+                        android:id="@+id/MPcardUno"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
@@ -110,20 +110,21 @@
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:tools="http://schemas.android.com/tools"
-                    android:id="@+id/DlinearMain"
+                    android:id="@+id/MPlinearMain"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    tools:context=".MostrarRecetaDeviceActivity"
+                    tools:context=".MostrarRecetaMenuPersonalActivity"
                     android:textSize="18sp">
 
                     <Button
                         style="?android:attr/buttonStyleSmall"
-                        android:id="@+id/DevicebtnMenuPersonal"
+                        android:id="@+id/MPbtnBorrarMenuPersonal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Agregar al menú personal"
+                        android:text="Eliminar del menú"
                         android:enabled="true" />
+
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
@@ -142,7 +143,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/DcardInstrucciones"
+                        android:id="@+id/MPcardInstrucciones"
                         android:paddingBottom="15dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -154,7 +155,7 @@
             </android.support.v7.widget.CardView>
 
             <ImageView
-                android:id="@+id/DpathIMG"
+                android:id="@+id/MPpathIMG"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="Your image will appear here" >
@@ -164,16 +165,16 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-<!--
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/guardar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="#1983e6"
-        android:src="@android:drawable/ic_menu_save" />
--->
+    <!--
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/guardar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="#1983e6"
+            android:src="@android:drawable/ic_menu_save" />
+    -->
 </android.support.design.widget.CoordinatorLayout>
 
 

@@ -10,6 +10,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 
 public class AppDatabaseHelper extends SQLiteOpenHelper {
@@ -302,6 +303,46 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         }
         else
             return 1;
+    }
+
+    public ArrayList<String> listaMenuPersonal()
+    {
+        //select count(*) as total from mitabla
+        ArrayList<String> Fechas = new ArrayList<String>();
+        SQLiteDatabase db = getWritableDatabase();
+        //Cursor c=db.rawQuery("select count(*) as total from "+TABLE_RECETAS, null);
+
+        String[] campos = new String[] {COL_IdMenu, COL_IdReceta, COL_AnioMenu, COL_MesMenu, COL_DiaMenu};
+        String[] order = new String[] {COL_AnioMenu,COL_MesMenu,COL_DiaMenu};
+        //String[] args = new String[] {"usu1"};
+
+        Cursor c = db.query(TABLE_MENUS, campos, null, null, null, null, "AnioMenu ASC, MesMenu ASC, DiaMenu ASC");
+
+//Nos aseguramos de que existe al menos un registro
+        if (c.moveToFirst()) {
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+                String IDMENU= Integer.toString(c.getInt(0));
+                String IDRECETA = Integer.toString(c.getInt(1));
+                String Dia = Integer.toString(c.getInt(4));
+                String Mes = Integer.toString(c.getInt(3));
+                String Anio = Integer.toString(c.getInt(2));
+                Fechas.add(IDMENU+"-"+IDRECETA+"-"+Dia+"-"+Mes+"-"+Anio);
+
+            } while(c.moveToNext());
+        }
+
+        return Fechas;
+
+    }
+
+    public void EliminarRecetaMenuPersonal(int IdMenu)
+    {
+        //select count(*) as total from mitabla
+        SQLiteDatabase db = getWritableDatabase();
+        //Cursor c=db.rawQuery("select count(*) as total from "+TABLE_RECETAS, null);
+
+        db.execSQL("DELETE FROM Menus WHERE IdMenu = "+IdMenu);
     }
 
 

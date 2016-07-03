@@ -12,7 +12,7 @@ public class Receta {
 
     //nuevo
 	private int IdReceta, NumPersonas,TiempoPraparacion,Dificultad;
-    private String NombreReceta, FotoReceta, Categoria;
+    private String NombreReceta, FotoReceta, Categoria, Fecha;
     private String URL;
 
 	public Receta() {
@@ -28,7 +28,7 @@ public class Receta {
 	}*/
 
 
-    public Receta(String NombreReceta, String FotoReceta, String Categoria, int IdReceta, int NumPersonas, int TiempoPraparacion, int Dificultad) {
+    public Receta(String NombreReceta, String FotoReceta, String Categoria, int IdReceta, int NumPersonas, int TiempoPraparacion, int Dificultad, String Fecha) {
         this.NombreReceta = NombreReceta;
         this.FotoReceta = FotoReceta;
         this.Categoria = Categoria;
@@ -37,6 +37,7 @@ public class Receta {
         this.TiempoPraparacion = TiempoPraparacion;
         this.Dificultad = Dificultad;
         this.URL = FotoReceta;
+        this.Fecha = Fecha;
 
     }
     //nuevos get
@@ -68,6 +69,7 @@ public class Receta {
     {
         return URL;
     }
+    public String getFecha(){return Fecha;}
     //nuevos set
     public void setNombreReceta(String NombreReceta)
     {
@@ -100,6 +102,10 @@ public class Receta {
     public void setURL(String URL)
     {
         this.URL = URL;
+    }
+    public void setFecha(String Fecha)
+    {
+        this.Fecha = Fecha;
     }
 
 

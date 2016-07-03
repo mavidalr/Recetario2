@@ -3,6 +3,7 @@ package com.example.mache.recetario2;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -89,14 +90,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import com.example.mache.recetario2.database.AppDatabaseHelper;
 
 
-public class MostrarRecetaDeviceActivity extends AppCompatActivity {
+public class MostrarRecetaMenuPersonalActivity extends AppCompatActivity {
 
     //--Para leer Ingredientes
     // json array response url
     private String urlJsonArry = "https://dl.dropboxusercontent.com/u/3194177/Taller/BDDOnlineIngredientes.json";
     private String urlJsonArryInstrucciones = "https://dl.dropboxusercontent.com/u/3194177/Taller/BDDOnlineInstrucciones.json";
     private String urlJsonObj = "http://api.androidhive.info/volley/person_object.json";
-    private static String TAG = MostrarRecetaDeviceActivity.class.getSimpleName();
+    private static String TAG = MostrarRecetaMenuPersonalActivity.class.getSimpleName();
     private Button btnMakeObjectRequest, btnMakeArrayRequest;
     // Progress dialog
     private ProgressDialog pDialog;
@@ -104,53 +105,18 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
     // temporary string to show the parsed response
     private String jsonResponse;
     private int IdReceta;
-
-    private int mYear, mMonth, mDay, mHour, mMinute;
-    private int TipoCesta=1;
-    private String TextoCesta="Default";
-    private String TipoMenu="Default";
+    private int IdMenu;
 
     //--Para el checkbox
     LinearLayout linearMain;
     CheckBox checkBox;
     //Fin para leer ingredientes
 
-    //para el boton savve
-    private int G_IdReceta;
-    private String G_NombreReceta;
-    private String G_FotoReceta;
-    private int G_NumPersonas;
-    private int G_TiempoPreparacion;
-    private String G_Categoria;
-    private int G_Dificulad;
-
-    private String G_Path;
-
-    /*private int G_IdIngrediente[];
-    private String G_NombreIngrediente[];
-    private String G_Medicion[];
-    private int G_Cantidad[];
-    */
-    ArrayList<Integer> G_IdIngrediente = new ArrayList<Integer>();
-    ArrayList<String> G_NombreIngrediente = new ArrayList<String>();
-    ArrayList<String> G_Medicion = new ArrayList<String>();
-    ArrayList<Double> G_Cantidad = new ArrayList<Double>();
-
-    ArrayList<Integer> G_IdIngredienteCesta = new ArrayList<Integer>();
-
-    /*private int G_IdInstruccion[];
-    private int G_OrdenInstruccion[];
-    private String G_TextoInstruccion[];
-    */
-    ArrayList<Integer> G_IdInstruccion = new ArrayList<Integer>();
-    ArrayList<Integer> G_OrdenInstruccion = new ArrayList<Integer>();
-    ArrayList<String> G_TextoInstruccion = new ArrayList<String >();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mostrar_receta_device);
+        setContentView(R.layout.activity_mostrar_receta_menu_personal);
 
         //--
         //Recuperamos la información pasada en el intent
@@ -158,33 +124,30 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
 
         String ID_RECETA = bundle.getString("SIdReceta");
         IdReceta = Integer.parseInt(ID_RECETA);
-        String TIEMPO = bundle.getString("STiempoPreparacion");
+        //String TIEMPO = bundle.getString("STiempoPreparacion");
         String CATEGORIA = bundle.getString("SCategoria");
+        String FECHA = bundle.getString("SFecha");
+        IdMenu = Integer.parseInt(bundle.getString("SIdMenu"));
 
 
 
-        String delims = "[ ]";
+        /*String delims = "[ ]";
         String[] tokens = TIEMPO.split(delims);
         //System.out.println(tokens[1]);
         int Tiempo = Integer.parseInt(tokens[1]);
         tokens = CATEGORIA.split(delims);
+        */
 
         //Construimos el mensaje a mostrar
         //txtSaludo.setText("Hola " + bundle.getString("NOMBRE"));
         System.out.println("Se recibe Id = : " + bundle.getString("SIdReceta"));
         System.out.println("Se recibe Id = : " + bundle.getString("SURL"));
         System.out.println("Se recibe Id = : " + bundle.getString("SNombreReceta"));
-        System.out.println("Se recibe Id = : " + bundle.getString("STiempoPreparacion"));
+        //System.out.println("Se recibe Id = : " + bundle.getString("STiempoPreparacion"));
         System.out.println("Se recibe Id = : " + bundle.getString("SCategoria"));
+        System.out.println("Se recibe fecha = : " + bundle.getString("SFecha"));
+        System.out.println("Se recibe IDMENU = : " + bundle.getString("SIdMenu"));
         //--
-
-        G_IdReceta = IdReceta;
-        G_NombreReceta = bundle.getString("SNombreReceta");
-        G_FotoReceta = bundle.getString("SURL");
-        G_NumPersonas = 0;
-        G_TiempoPreparacion = Tiempo;
-        G_Categoria = tokens[1];
-        G_Dificulad = 0;
 
 
         //final Toolbar toolbar = (Toolbar) findViewById(R.id.DMyToolbar);
@@ -192,7 +155,7 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.Dcollapse_toolbar);
+                (CollapsingToolbarLayout) findViewById(R.id.MPcollapse_toolbar);
         //collapsingToolbar.setTitle("My Toolbar Tittle");
 
         //Nombre receta
@@ -220,15 +183,15 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
         {
 
 
-        //Cargar img de fondo
-        ImageView targetImage = (ImageView)findViewById(R.id.DImagenFondo);
-        System.out.println(loadImageBitmap(getApplicationContext(), ID_RECETA + ".png"));
-        targetImage.setImageBitmap(loadImageBitmap(getApplicationContext(), ID_RECETA + ".png"));
+            //Cargar img de fondo
+            ImageView targetImage = (ImageView)findViewById(R.id.MPImagenFondo);
+            System.out.println(loadImageBitmap(getApplicationContext(), ID_RECETA + ".png"));
+            targetImage.setImageBitmap(loadImageBitmap(getApplicationContext(), ID_RECETA + ".png"));
         }
         else
         {
-            ImageView imgPreview = (ImageView)findViewById(R.id.DImagenFondo);
-            AppDatabaseHelper dbHelper = new AppDatabaseHelper(MostrarRecetaDeviceActivity.this);
+            ImageView imgPreview = (ImageView)findViewById(R.id.MPImagenFondo);
+            AppDatabaseHelper dbHelper = new AppDatabaseHelper(MostrarRecetaMenuPersonalActivity.this);
             String PathImagen = dbHelper.PathImagenSDCard(ID_RECETA);
             System.out.println(PathImagen);
 
@@ -256,8 +219,9 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
             }
 
         }
-        TextView PrimerCard = (TextView) findViewById(R.id.DcardUno);
-        PrimerCard.setText("Categoría: "+tokens[1] + "\n\n" +"Tiempo de preparación: "+ Tiempo + " min.");
+        TextView PrimerCard = (TextView) findViewById(R.id.MPcardUno);
+        //PrimerCard.setText("Categoría: "+tokens[1] + "\n\n" +"Tiempo de preparación: "+ Tiempo + " min.");
+        PrimerCard.setText(FECHA);
 
 
 
@@ -278,7 +242,7 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
         pDialog.setCancelable(false);
 
         //makeJsonArrayRequest();
-        linearMain = (LinearLayout) findViewById(R.id.DlinearMain);
+        linearMain = (LinearLayout) findViewById(R.id.MPlinearMain);
 
         //para el checkbox
         LinkedHashMap<String, String> alphabet = new LinkedHashMap<String, String>();
@@ -338,7 +302,7 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
             Map.Entry me = (Map.Entry) i.next();
             System.out.print(me.getKey() + ": ");
             System.out.println(me.getValue());
-            checkBox = new CheckBox(MostrarRecetaDeviceActivity.this);
+            checkBox = new CheckBox(MostrarRecetaMenuPersonalActivity.this);
             //checkBox = new CheckBox(this);
             checkBox.setId(Integer.parseInt(me.getKey().toString()));
             checkBox.setText(me.getValue().toString());
@@ -369,7 +333,7 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
             } while(resultados.moveToNext());
         }
         TextoInstrucciones += "\n\n";
-        TextView txtResponse = (TextView) findViewById(R.id.DcardInstrucciones);
+        TextView txtResponse = (TextView) findViewById(R.id.MPcardInstrucciones);
         txtResponse.setText(TextoInstrucciones);
 
         hidepDialog();
@@ -382,80 +346,29 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
 
         //-- Fin para leer ingredientes
 
-        final Button btnAgregarMenuPersonal = (Button)findViewById(R.id.DevicebtnMenuPersonal);
-        //btnDatePicker=(Button)findViewById(R.id.btn_date);
-        //btnTimePicker=(Button)findViewById(R.id.btn_time);
-        //txtDate=(EditText)findViewById(R.id.in_date);
-        //txtTime=(EditText)findViewById(R.id.in_time);
 
+        final Button btnBorrarMenuPersonal = (Button)findViewById(R.id.MPbtnBorrarMenuPersonal);
+        btnBorrarMenuPersonal.setOnClickListener(new Button.OnClickListener(){
 
-        btnAgregarMenuPersonal.setOnClickListener(new Button.OnClickListener(){
 
             @Override
             public void onClick(View arg0) {
 
-                //obtener los ingredientes
+                System.out.println("IDMENU a eli: "+IdMenu);
 
-// Get Current Date
-                final Calendar c = Calendar.getInstance();
-                mYear = c.get(Calendar.YEAR);
-                mMonth = c.get(Calendar.MONTH);
-                mDay = c.get(Calendar.DAY_OF_MONTH);
+                AppDatabaseHelper dbHelper = new AppDatabaseHelper(MostrarRecetaMenuPersonalActivity.this);
+                dbHelper.EliminarRecetaMenuPersonal(IdMenu);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(MostrarRecetaDeviceActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-
-                                //txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                                System.out.println(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-
-
-                                //Recuperar IDingredientes que se seleccionan del checkbox
-                                //System.out.println(G_IdIngredienteCesta);
-
-                                AppDatabaseHelper dbHelper = new AppDatabaseHelper(MostrarRecetaDeviceActivity.this);
-                                int IdMenuAInsertar = dbHelper.IdMenuAInsertar();
-                                int IdCestaAInsertar = dbHelper.IdCestaAInsertar();
-
-                                /*for(int x=0;x<G_IdIngrediente.size();x++) {
-                                    System.out.println("Hay ingredientes");
-                                    dbHelper.InsertarIngrediente(G_IdReceta, G_IdIngrediente.get(x),G_NombreIngrediente.get(x),G_Medicion.get(x),G_Cantidad.get(x));
-                                }*/
-
-
-                                for(int y=0;y<G_IdIngredienteCesta.size();y++)
-                                {
-                                    int posicionEnG_IdIngrediente = G_IdIngrediente.indexOf(G_IdIngredienteCesta.get(y));
-                                    //System.out.println("La pos es "+posicionEnG_IdIngrediente+" del IdIngrediente select "+G_IdIngredienteCesta.get(y));
-                                    //System.out.println(G_NombreIngrediente.get(posicionEnG_IdIngrediente)+"-"+G_Medicion.get(posicionEnG_IdIngrediente)+"-"+G_Cantidad.get(posicionEnG_IdIngrediente));
-                                    dbHelper.InsertarCesta(IdCestaAInsertar+y,G_NombreIngrediente.get(posicionEnG_IdIngrediente),G_Medicion.get(posicionEnG_IdIngrediente),G_Cantidad.get(posicionEnG_IdIngrediente),TipoCesta,TextoCesta);
-
-                                }
-
-                                //Recuperar Valores de fecha, IdReceta y TipoMenu="Default"System.out.println(G_IdReceta);
-                                System.out.println(dayOfMonth);
-                                System.out.println(monthOfYear);
-                                System.out.println(year);
-                                System.out.println(TipoCesta);
-                                dbHelper.InsertarMenu(IdMenuAInsertar,G_IdReceta,dayOfMonth,monthOfYear,year,TipoMenu);
-
-                                Toast.makeText(MostrarRecetaDeviceActivity.this,
-                                        "Receta agregada al menú personal",
-                                        Toast.LENGTH_SHORT).show();
-
-
-                            }
-                        }, mYear, mMonth, mDay);
-
-
-                datePickerDialog.show();
+                View b = findViewById(R.id.MPbtnBorrarMenuPersonal);
+                b.setVisibility(View.GONE);
 
 
 
+                Toast.makeText(MostrarRecetaMenuPersonalActivity.this,
+                        "Receta eliminada del menú personal",
+                        Toast.LENGTH_SHORT).show();
 
+                //onBackPressed();
 
 
             }});
@@ -465,7 +378,10 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
 
     //funcion para guardar url imagen
 
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, BuscarRecetasMenuPersonalActivity.class));
+    }
     /**
      * Method to make json array request where response starts with [
      * */
@@ -526,7 +442,7 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
                                 Map.Entry me = (Map.Entry) i.next();
                                 System.out.print(me.getKey() + ": ");
                                 System.out.println(me.getValue());
-                                checkBox = new CheckBox(MostrarRecetaDeviceActivity.this);
+                                checkBox = new CheckBox(MostrarRecetaMenuPersonalActivity.this);
                                 //checkBox = new CheckBox(this);
                                 checkBox.setId(Integer.parseInt(me.getKey().toString()));
                                 checkBox.setText(me.getValue().toString());

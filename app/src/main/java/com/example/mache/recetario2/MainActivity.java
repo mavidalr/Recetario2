@@ -115,12 +115,12 @@ public class MainActivity extends AppCompatActivity {
                                 CestaComprasActivity.class);
                         startActivity(intent);
                         break;
-                    /*case OPCION_RESUMEN_ACADEMICO:
-                        intent = new Intent(HomeActivity.this,
-                                ResumenAcademicoActivity.class);
+                    case OPCION_MENU_PERSONAL:
+                        intent = new Intent(MainActivity.this,
+                                BuscarRecetasMenuPersonalActivity.class);
                         startActivity(intent);
                         break;
-*/
+
                 }
             }
         });
