@@ -188,7 +188,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         //Cursor c=db.rawQuery("select count(*) as total from "+TABLE_RECETAS, null);
 
         //Cursor c=db.rawQuery("SELECT "+COL_FotoReceta+" FROM "+TABLE_RECETAS+" where "+COL_IdReceta+" = " + IdReceta, null);
-        Cursor c=db.rawQuery("SELECT "+COL_FotoReceta+" FROM "+TABLE_RECETAS+" where "+COL_IdReceta+" = 3", null);
+        Cursor c=db.rawQuery("SELECT "+COL_FotoReceta+" FROM "+TABLE_RECETAS+" where "+COL_IdReceta+" = "+IdReceta, null);
         if(c.moveToFirst())
         {
             return c.getString(0);

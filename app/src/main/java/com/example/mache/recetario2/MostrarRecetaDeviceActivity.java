@@ -330,5 +330,3 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
 
 
 }
-
-
