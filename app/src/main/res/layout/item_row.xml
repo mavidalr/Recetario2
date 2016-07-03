@@ -30,7 +30,7 @@
             android:textColor="#ffffff"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:gravity="left"
+            android:gravity="center"
             android:text="asdf"
             android:background="#0095ff"/>
 
@@ -42,7 +42,7 @@
             android:textColor="#ffffff"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:gravity="left"
+            android:gravity="center"
             android:background="#0095ff"/>
 
     </LinearLayout>
