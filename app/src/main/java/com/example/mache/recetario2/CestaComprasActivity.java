@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.example.mache.recetario2.database.AppDatabaseHelper;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -36,37 +35,23 @@ public class CestaComprasActivity extends AppCompatActivity {
 
         CClinearLayout = (LinearLayout) findViewById(R.id.CCCheckBox);
 
-        //alphabet.put("1", "Texto1");
-        //alphabet.put("2", "Texto2");
-
-
-
         //se hace la consulta:
         //Leyendo datos
         AppDatabaseHelper appDatabaseHelper = new AppDatabaseHelper(getApplicationContext());
         SQLiteDatabase database = appDatabaseHelper.getReadableDatabase();
         String TextoCheckbox="";
 
-        //String[] orderBy = new String[] {appDatabaseHelper.COL_NombreIngredienteCesta};
-
-        //Cursor resultados = database.query(AppDatabaseHelper.TABLE_INGREDIENTES,
-        //        null,"IdReceta=?",args,null,null,AppDatabaseHelper.COL_IdIngrediente);
-        //Estructura de query()
-        //query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy, String limit)
-
         Cursor resultados = database.query(AppDatabaseHelper.TABLE_CESTA, null, null, null, null, null, appDatabaseHelper.COL_NombreIngredienteCesta, null);
 
         //Se recorre el arreglo de ingredientes:
         //Nos aseguramos de que existe al menos un registro
         if (resultados.moveToFirst()) {
-            System.out.println("EL IF");
             //Recorremos el cursor hasta que no haya más registros
             String NombreIngrediente;
             String Medicion;
             Double Cantidad;
             int IdElementoCesta;
             do {
-                System.out.println("Hay ingredientes");
                 //Se obtienen los campos de cada columna
                 NombreIngrediente = resultados.getString(resultados.getColumnIndex(AppDatabaseHelper.COL_NombreIngredienteCesta));
                 Medicion = resultados.getString(resultados.getColumnIndex(AppDatabaseHelper.COL_MedicionCesta));
@@ -75,7 +60,6 @@ public class CestaComprasActivity extends AppCompatActivity {
 
                 if (Medicion.equals("Unidad"))
                 {
-                    //System.out.println("Holi, soy una unidad de ingrediente");
                     TextoCheckbox = Cantidad +" "+ NombreIngrediente;
                 }
                 else
@@ -87,15 +71,12 @@ public class CestaComprasActivity extends AppCompatActivity {
             } while(resultados.moveToNext());
         }
 
-
-        // Get an iterator
         Iterator<?> i = set.iterator();
         // Display elements
         while (i.hasNext()) {
             @SuppressWarnings("rawtypes")
             Map.Entry me = (Map.Entry) i.next();
-            System.out.print(me.getKey() + ": ");
-            System.out.println(me.getValue());
+
             checkBox = new CheckBox(CestaComprasActivity.this);
             //checkBox = new CheckBox(this);
             checkBox.setId(Integer.parseInt(me.getKey().toString()));
@@ -113,7 +94,6 @@ public class CestaComprasActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 //Eliminar de BDD
-                //db.execSQL("DELETE FROM Usuarios WHERE codigo=6 ");
                 AppDatabaseHelper appDatabaseHelper = new AppDatabaseHelper(getApplicationContext());
                 SQLiteDatabase database = appDatabaseHelper.getReadableDatabase();
                 String Consulta = "";
@@ -142,7 +122,7 @@ public class CestaComprasActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 //Eliminar de BDD
-                //db.execSQL("DELETE FROM Usuarios WHERE codigo=6 ");
+
                 AppDatabaseHelper appDatabaseHelper = new AppDatabaseHelper(getApplicationContext());
                 SQLiteDatabase database = appDatabaseHelper.getReadableDatabase();
                 database.delete(appDatabaseHelper.TABLE_CESTA, null, null);
@@ -166,10 +146,8 @@ public class CestaComprasActivity extends AppCompatActivity {
     View.OnClickListener getOnClickDoSomething(final Button button) {
         return new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("*************Id******" + button.getId());
-                System.out.println("Text***" + button.getText().toString());
-                //Almacenar IdIngrediente a la cesta
 
+                //Almacenar IdIngrediente a la cesta
 
                 if(G_IdElementosSeleccionados.contains(button.getId()))
 
