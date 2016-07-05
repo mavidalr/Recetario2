@@ -187,6 +187,10 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
                     TextoColumna = Cantidad +" "+ Medicion +" de "+ NombreIngrediente;
 
                 alphabet.put(String.valueOf(IdIngrediente), TextoColumna);
+                G_IdIngrediente.add(IdIngrediente);
+                G_NombreIngrediente.add(NombreIngrediente);
+                G_Medicion.add(Medicion);
+                G_Cantidad.add(Cantidad);
 
 
             } while(resultados.moveToNext());
@@ -291,16 +295,29 @@ public class MostrarRecetaDeviceActivity extends AppCompatActivity {
 
     }
 
+
+    //Funcion que obtiene los valores seleccionados del checkbox
     View.OnClickListener getOnClickDoSomething(final Button button) {
         return new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("*************Id******" + button.getId());
-                System.out.println("Text***" + button.getText().toString());
+
+                //Almacenar IdIngrediente a la cesta
+
+                if(G_IdIngredienteCesta.contains(button.getId()))
+                {
+                    G_IdIngredienteCesta.remove(G_IdIngredienteCesta.indexOf(button.getId()));
+
+
+                }
+                else
+                {
+                    G_IdIngredienteCesta.add(button.getId());
+                }
+
+
             }
         };
     }
-
-
     private void showpDialog() {
         if (!pDialog.isShowing())
             pDialog.show();

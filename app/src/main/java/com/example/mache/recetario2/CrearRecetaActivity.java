@@ -293,9 +293,12 @@ public class CrearRecetaActivity extends AppCompatActivity {
                 // capture picture
                 captureImage();
 
+                /*
+
                 Toast.makeText(CrearRecetaActivity.this,
                         "HOLI, la img esta en"+fileUri,
                         Toast.LENGTH_SHORT).show();
+                        */
             }
 
         });
@@ -403,7 +406,7 @@ public class CrearRecetaActivity extends AppCompatActivity {
             } else {
                 // failed to capture image
                 Toast.makeText(getApplicationContext(),
-                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+                        "Ha fallado la captura de la imagen", Toast.LENGTH_SHORT)
                         .show();
             }
         } /*else if (requestCode == CAMERA_CAPTURE_VIDEO_REQUEST_CODE) {
@@ -449,10 +452,11 @@ public class CrearRecetaActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
+/*
         Toast.makeText(CrearRecetaActivity.this,
                 "HOLI  umero 2, la img esta en"+fileUri,
                 Toast.LENGTH_SHORT).show();
+                */
     }
 
     /**
