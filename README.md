@@ -7,7 +7,7 @@ Aplicación móvil para android desarrollada con Android Studio.
 
 ## Características de la aplicación
 
-| Recetario | Planificador |
+| **Recetario** | **Planificador** |
 | --- | --- |
 | Búsqueda de recetar por categoría | Crear menús diarios |
 | Modo offline | Cesta de compras |
