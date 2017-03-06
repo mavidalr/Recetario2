@@ -15,6 +15,12 @@ Aplicación móvil para android desarrollada con Android Studio.
 | Modo offline | Cesta de compras |
 |Creación de recetas propias | |
 
+
+| Command | Description |
+| --- | --- |
+| git status | List all new or modified files |
+| git diff | Show file differences that haven't been staged |
+
 ## Funciones principales
 
 + Uso de cámara del dispositivo.
