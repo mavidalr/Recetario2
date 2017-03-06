@@ -9,7 +9,7 @@ Aplicación móvil para android desarrollada con Android Studio.
 
 | **Recetario** | **Planificador** |
 | --- | --- |
-| Búsqueda de recetar por categoría | Crear menús diarios |
+| Búsqueda de recetas por categoría | Crear menús diarios |
 | Modo offline | Cesta de compras |
 |Creación de recetas propias |  |
 
