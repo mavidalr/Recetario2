@@ -16,10 +16,11 @@ Aplicación móvil para android desarrollada con Android Studio.
 |Creación de recetas propias | |
 
 
-| Command | Description |
+| Recetario | Planificador |
 | --- | --- |
-| git status | List all new or modified files |
-| git diff | Show file differences that haven't been staged |
+| Búsqueda de recetar por categoría | Crear menús diarios |
+| Modo offline | Cesta de compras |
+|Creación de recetas propias |  |
 
 ## Funciones principales
 
