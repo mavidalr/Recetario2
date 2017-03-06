@@ -1,6 +1,6 @@
 # Proyecto Recetario-Planificador de Menús
 
-Proyecto de INF320 - Taller de aplicaciones móviles, UTFSM Campus San Joaquín, 2016-1
+Proyecto de INF320 - Taller de aplicaciones móviles, UTFSM Campus Santiago, San Joaquín 2016-1.
 Marcela Vidal Ramírez
 
 Aplicación móvil para android desarrollada con Android Studio.
